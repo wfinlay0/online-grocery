@@ -18,7 +18,6 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <h1>online-grocery</h1>
-      <table></table>
     </main>
   );
 }
