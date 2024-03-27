@@ -5,6 +5,7 @@ import * as React from "react";
 import { WorkBook, read, utils } from "xlsx";
 const XLSX_CALC = require("xlsx-calc");
 
+// install a webpack loader for this?
 const MODEL_LINK = "/model.xlsm";
 
 export default function Home() {
@@ -31,8 +32,9 @@ export default function Home() {
         origin: "C9",
       }
     );
-    /* the XLSX_CALC package has a hard time parsing implicit intersection operator but it seems like it's 
-      still working?
+    /* the XLSX_CALC package won't evaluate implicit intersection operator but it will default to the value attribute 
+    from the last time excel ran it
+    
       ex: 'Home Delivery_In Store'!C21 =VLOOKUP(@B:B,'Sub Op Table'!A:C,2,0) throws an error */
     XLSX_CALC(tmp, { continue_after_error: true });
     setWorkbook(tmp);
