@@ -1,8 +1,11 @@
 "use client";
 
+import InputGroup from "@/components/InputGroup/InputGroup";
 import styles from "./page.module.css";
 import * as React from "react";
-import { WorkBook, read, utils } from "xlsx";
+import { WorkBook, read } from "xlsx";
+import OutputTable from "@/components/OutputTable/OutputTable";
+
 const XLSX_CALC = require("xlsx-calc");
 
 // install a webpack loader for this?
@@ -19,43 +22,19 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  React.useEffect(() => {
-    if (workbook) console.log(workbook);
-  }, [workbook]);
-
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const tmp = structuredClone(workbook);
-    utils.sheet_add_aoa(
-      tmp!.Sheets["Main Page"],
-      [[parseInt(e.target.value)]],
-      {
-        origin: "C9",
-      }
-    );
-    /* the XLSX_CALC package won't evaluate implicit intersection operator but it will default to the value attribute 
-    from the last time excel ran it
-    
-      ex: 'Home Delivery_In Store'!C21 =VLOOKUP(@B:B,'Sub Op Table'!A:C,2,0) throws an error */
-    XLSX_CALC(tmp, { continue_after_error: true });
-    setWorkbook(tmp);
+  const recalculate = (wb: WorkBook) => {
+    setWorkbook(XLSX_CALC(wb));
   };
 
   return (
     <main className={styles.main}>
-      <h1>online-grocery</h1>
-      <label>
-        Online order size (C9)
-        <input
-          type="number"
-          min={0}
-          value={workbook?.Sheets["Main Page"]["C9"].v || 0}
-          onChange={onInputChange}
-        />
-      </label>
-      <label>
-        Base Case Labor Time Per Order (min) (C21)
-        <span>{workbook?.Sheets["Main Page"]["C21"].v}</span>
-      </label>
+      <InputGroup
+        workbook={workbook!}
+        sheet="Main Page"
+        cellRange="B9:C14"
+        onSubmit={recalculate}
+      />
+      <OutputTable workbook={workbook!} cellRange="B20:C30" />
     </main>
   );
 }
