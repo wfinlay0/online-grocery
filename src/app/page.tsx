@@ -5,11 +5,12 @@ import styles from "./page.module.css";
 import * as React from "react";
 import { WorkBook, read } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
+import nextConfig from "../../next.config.mjs";
 
 const XLSX_CALC = require("xlsx-calc");
 
 // install a webpack loader for this?
-const MODEL_LINK = "/model.xlsm";
+const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
