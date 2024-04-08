@@ -48,9 +48,7 @@ export default function RootLayout({
             </Group>
           </AppShellHeader>
           <AppShellMain>
-            <MantineProvider>
-              {children}
-            </MantineProvider>
+            {children}
           </AppShellMain>
           <AppShellFooter style={{position: "static"}}>
             <Group h="100%" px="md" justify="center">
