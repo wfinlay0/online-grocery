@@ -6,6 +6,7 @@ import * as React from "react";
 import { WorkBook, read } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
+import Welcome from "@/components/Welcome/Welcome";
 
 const XLSX_CALC = require("xlsx-calc");
 
@@ -28,14 +29,25 @@ export default function Home() {
   };
 
   return (
-    <main className={styles.main}>
-      <InputGroup
-        workbook={workbook!}
-        sheet="Main Page"
-        cellRange="B9:C14"
-        onSubmit={recalculate}
-      />
-      <OutputTable workbook={workbook!} cellRange="B20:C30" />
-    </main>
+    <>
+      <Welcome />
+      <div style={{height: "50vh", display: "flex", flexDirection: "row"}}>
+        <div style={{width: "50%"}}>
+          <InputGroup
+            workbook={workbook!}
+            sheet="Main Page"
+            cellRange="B9:C14"
+            onSubmit={recalculate}
+          />
+        </div>
+        <div style={{width: "50%"}}>
+          <OutputTable workbook={workbook!} cellRange="B20:C30" />
+
+        </div>
+
+      </div>
+    </>
+
+
   );
 }
