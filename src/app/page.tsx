@@ -1,12 +1,12 @@
 "use client";
 
 import InputGroup from "@/components/InputGroup/InputGroup";
-import styles from "./page.module.css";
 import * as React from "react";
-import { WorkBook, read } from "xlsx";
+import { WorkBook } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import Welcome from "@/components/Welcome/Welcome";
+import { readCustom } from "@/utils/xlex-utils";
 
 const XLSX_CALC = require("xlsx-calc");
 
@@ -19,7 +19,7 @@ export default function Home() {
   React.useEffect(() => {
     fetch(MODEL_LINK)
       .then((res) => res.arrayBuffer())
-      .then(read)
+      .then(readCustom)
       .then(setWorkbook)
       .catch(console.error);
   }, []);
@@ -31,8 +31,8 @@ export default function Home() {
   return (
     <>
       <Welcome />
-      <div style={{height: "50vh", display: "flex", flexDirection: "row"}}>
-        <div style={{width: "50%"}}>
+      <div style={{ height: "50vh", display: "flex", flexDirection: "row" }}>
+        <div style={{ width: "50%" }}>
           <InputGroup
             workbook={workbook!}
             sheet="Main Page"
@@ -40,14 +40,10 @@ export default function Home() {
             onSubmit={recalculate}
           />
         </div>
-        <div style={{width: "50%"}}>
+        <div style={{ width: "50%" }}>
           <OutputTable workbook={workbook!} cellRange="B20:C30" />
-
         </div>
-
       </div>
     </>
-
-
   );
 }
