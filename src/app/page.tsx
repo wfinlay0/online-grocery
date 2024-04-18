@@ -6,7 +6,7 @@ import { WorkBook } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import Welcome from "@/components/Welcome/Welcome";
-import { readCustom } from "@/utils/xlex-utils";
+import { readCustom } from "@/utils/xlsx-utils";
 
 const XLSX_CALC = require("xlsx-calc");
 
