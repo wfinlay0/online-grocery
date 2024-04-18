@@ -38,7 +38,7 @@ export default function Home() {
             workbook={workbook!}
             sheet="Main Page"
             cellRange="B9:C16"
-            onSubmit={() => {}}
+            onSubmit={console.log}
           />
         </div>
         <div style={{ width: "50%" }}>

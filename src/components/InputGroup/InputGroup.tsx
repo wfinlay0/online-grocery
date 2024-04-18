@@ -1,7 +1,14 @@
 import { getDenseCellRange } from "@/utils/xlsx-utils";
 import { Button, NumberInput } from "@mantine/core";
 import * as React from "react";
-import { CellObject, WorkBook, utils } from "xlsx";
+import { WorkBook, utils } from "xlsx";
+
+/**
+ * created this type because dealing with numbers is easier than dealing with cells
+ *
+ * plus, SheetJS has utility functions for dealing with aoa (array of arrays)
+ */
+export type InputRow = [string, number];
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
  * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
@@ -17,7 +24,7 @@ interface IInputGroupProps {
    * - if more than 2 colums, won't throw an error, but only first 2 will be considered
    */
   cellRange: string;
-  onSubmit: (content: CellObject[][]) => void;
+  onSubmit: (content: InputRow[]) => void;
 }
 
 /**
@@ -27,19 +34,27 @@ interface IInputGroupProps {
  * @returns
  */
 const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
-  const [data, setData] = React.useState<CellObject[][]>();
+  const [data, setData] = React.useState<InputRow[]>();
+  // TODO: mantine use form
 
   React.useEffect(() => {
     const cellArray = getDenseCellRange(
       props.workbook?.Sheets[props.sheet],
       props.cellRange
     );
-    setData(cellArray);
+    const inputRows: InputRow[] = cellArray?.map((row) => [
+      utils.format_cell(row[0]),
+      parseInt(utils.format_cell(row[1])),
+    ]);
+    setData(inputRows);
   }, [props.cellRange, props.sheet, props.workbook]);
 
-  const onInputChange = () => {
-    // TODO: * implement onInputChange
-    console.error("not yet implemented");
+  const onInputChange = (newValue: string | number, rowIndex: number) => {
+    setData((old) => {
+      const tmp = old!.slice();
+      tmp[rowIndex][1] = Number(newValue);
+      return tmp;
+    });
   };
 
   return (
@@ -48,11 +63,11 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
         {data.map((row, idx) => (
           <div key={idx}>
             <NumberInput
-              label={utils.format_cell(row[0])}
-              defaultValue={utils.format_cell(row[1])}
+              label={row[0]}
+              value={row[1]}
               allowDecimal={false}
               allowNegative={false}
-              onChange={onInputChange}
+              onChange={(value) => onInputChange(value, idx)}
             />
           </div>
         ))}
