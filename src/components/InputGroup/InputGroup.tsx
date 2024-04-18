@@ -1,8 +1,9 @@
 import { getDenseCellRange } from "@/utils/xlsx-utils";
+import { Button, NumberInput } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 
-/* TODO: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
+/* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
  * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
  * way to do the code splitting similar to extending a parent class. tbd
  */
@@ -16,7 +17,7 @@ interface IInputGroupProps {
    * - if more than 2 colums, won't throw an error, but only first 2 will be considered
    */
   cellRange: string;
-  onSubmit: (content: WorkBook) => void;
+  onSubmit: (content: CellObject[][]) => void;
 }
 
 /**
@@ -37,26 +38,29 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   }, [props.cellRange, props.sheet, props.workbook]);
 
   const onInputChange = () => {
-    // TODO: * implenet onInputChange
+    // TODO: * implement onInputChange
     console.error("not yet implemented");
   };
 
   return (
-    <div>
-      {data?.map((row, idx) => (
-        <div key={idx}>
-          <label>
-            {utils.format_cell(row[0])}
-            <input
-              type="text"
-              value={utils.format_cell(row[1])}
+    data && (
+      <div>
+        {data.map((row, idx) => (
+          <div key={idx}>
+            <NumberInput
+              label={utils.format_cell(row[0])}
+              defaultValue={utils.format_cell(row[1])}
+              allowDecimal={false}
+              allowNegative={false}
               onChange={onInputChange}
             />
-          </label>
-        </div>
-      ))}
-      <button>submit</button>
-    </div>
+          </div>
+        ))}
+        <Button my={"1em"} onClick={() => props.onSubmit(data)}>
+          Submit
+        </Button>
+      </div>
+    )
   );
 };
 

@@ -13,7 +13,7 @@
 }
 
 .emphasis { 
-    color: blue;
+    color: var(--mantine-color-blue-6);
 }
 
 .description { 

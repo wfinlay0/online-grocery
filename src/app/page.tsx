@@ -24,6 +24,7 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
+  // TODO: input group doesn't send back a whole workbook, should it?
   const recalculate = (wb: WorkBook) => {
     setWorkbook(XLSX_CALC(wb));
   };
@@ -37,7 +38,7 @@ export default function Home() {
             workbook={workbook!}
             sheet="Main Page"
             cellRange="B9:C14"
-            onSubmit={recalculate}
+            onSubmit={() => {}}
           />
         </div>
         <div style={{ width: "50%" }}>
