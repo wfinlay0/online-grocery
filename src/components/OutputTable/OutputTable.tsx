@@ -1,7 +1,7 @@
 import { getDenseCellRange } from "@/utils/xlsx-utils";
 import { Table } from "@mantine/core";
 import * as React from "react";
-import { WorkBook } from "xlsx";
+import { CellObject, WorkBook, utils } from "xlsx";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -14,13 +14,32 @@ interface IOutputTableProps {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-  const rows = getDenseCellRange(
+  let rows = getDenseCellRange(
     props.workbook?.Sheets["Main Page"],
     props.cellRange
   );
 
+  const labelRow: CellObject[] | boolean = props.labels && rows[0];
+
   return (
-    <Table>{rows && rows.map((row, i) => <Table.Tr key={i}></Table.Tr>)}</Table>
+    <Table>
+      {labelRow && (
+        <Table.Thead>
+          <Table.Tr>
+            {labelRow.map((labelCell, i) => (
+              <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
+            ))}
+          </Table.Tr>
+        </Table.Thead>
+      )}
+      {rows &&
+        rows.slice(+props.labels).map((row, i) => (
+          <Table.Tr key={i}>
+            <Table.Td>{utils.format_cell(row[0])}</Table.Td>
+            <Table.Td>{utils.format_cell(row[1])}</Table.Td>
+          </Table.Tr>
+        ))}
+    </Table>
   );
 };
 
