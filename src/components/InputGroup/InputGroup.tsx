@@ -1,14 +1,8 @@
+import { InputRow } from "@/types/xlsx-types";
 import { getDenseCellRange } from "@/utils/xlsx-utils";
 import { Button, NumberInput } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
-
-/**
- * created this type because dealing with numbers is easier than dealing with cells
- *
- * plus, SheetJS has utility functions for dealing with aoa (array of arrays)
- */
-export type InputRow = [string, number];
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
  * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
@@ -35,7 +29,7 @@ interface IInputGroupProps {
  */
 const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   const [data, setData] = React.useState<InputRow[]>();
-  // TODO: mantine use form
+  // [ ] mantine use form
 
   React.useEffect(() => {
     const cellArray = getDenseCellRange(
