@@ -37,7 +37,7 @@ export default function Home() {
           <InputGroup
             workbook={workbook!}
             sheet="Main Page"
-            cellRange="B9:C14"
+            cellRange="B9:C16"
             onSubmit={() => {}}
           />
         </div>

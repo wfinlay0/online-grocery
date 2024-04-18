@@ -1,7 +1,6 @@
 import styles from "./Welcome.module.css";
 
 const Welcome = () => {
-  /* TODO: * mantine theme color for this blue text */
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>
