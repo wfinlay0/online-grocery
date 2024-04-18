@@ -16,4 +16,5 @@ const nextConfig = {
     images: { unoptimized: true },
 };
 
+// TODO: figure out how we're hosting this, then we can do some devops work and have a separate testing env
 export default nextConfig;

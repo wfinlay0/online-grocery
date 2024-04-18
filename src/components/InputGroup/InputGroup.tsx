@@ -1,6 +1,11 @@
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 
+/**
+ * TODO: could generalize this further by adding a `readonly` boolean that would render it as such, would be able to get
+ * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
+ * way to do the code splitting similar to extending a parent class. tbd
+ */
 interface IInputGroupProps {
   workbook: WorkBook;
   sheet: string;
