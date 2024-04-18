@@ -19,7 +19,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
     props.cellRange
   );
 
-  const labelRow: CellObject[] | boolean = props.labels && rows[0];
+  const labelRow: CellObject[] | boolean = props.labels && rows?.[0];
 
   return (
     <Table>
@@ -32,13 +32,15 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
           </Table.Tr>
         </Table.Thead>
       )}
-      {rows &&
-        rows.slice(+props.labels).map((row, i) => (
-          <Table.Tr key={i}>
-            <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-            <Table.Td>{utils.format_cell(row[1])}</Table.Td>
-          </Table.Tr>
-        ))}
+      <Table.Tbody>
+        {rows &&
+          rows.slice(+props.labels).map((row, i) => (
+            <Table.Tr key={i}>
+              <Table.Td>{utils.format_cell(row[0])}</Table.Td>
+              <Table.Td>{utils.format_cell(row[1])}</Table.Td>
+            </Table.Tr>
+          ))}
+      </Table.Tbody>
     </Table>
   );
 };
