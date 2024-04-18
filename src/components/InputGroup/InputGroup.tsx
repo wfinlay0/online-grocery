@@ -1,3 +1,4 @@
+import { getDenseCellRange } from "@/utils/xlsx-utils";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 
@@ -28,12 +29,11 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   const [data, setData] = React.useState<CellObject[][]>();
 
   React.useEffect(() => {
-    const cr = utils.decode_range(props.cellRange);
-    setData(
-      props.workbook?.Sheets[props.sheet]["!data"]
-        ?.slice(cr.s.r, cr.e.r + 1)
-        .map((row) => row.slice(cr.s.c, cr.e.c + 1))
+    const cellArray = getDenseCellRange(
+      props.workbook?.Sheets[props.sheet],
+      props.cellRange
     );
+    setData(cellArray);
   }, [props.cellRange, props.sheet, props.workbook]);
 
   const onInputChange = () => {
