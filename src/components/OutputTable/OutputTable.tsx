@@ -7,7 +7,8 @@ interface IOutputTableProps {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-  return <div>TODO: OutputTable</div>;
+  /* TODO: * output table*/
+  return <div>OutputTable</div>;
 };
 
 export default OutputTable;

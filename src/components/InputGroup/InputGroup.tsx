@@ -1,8 +1,7 @@
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 
-/**
- * TODO: could generalize this further by adding a `readonly` boolean that would render it as such, would be able to get
+/* TODO: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
  * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
  * way to do the code splitting similar to extending a parent class. tbd
  */
@@ -38,7 +37,8 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   }, [props.cellRange, props.sheet, props.workbook]);
 
   const onInputChange = () => {
-    console.error("not yet implemented: TODO: update data (inputgroup state)");
+    // TODO: * implenet onInputChange
+    console.error("not yet implemented");
   };
 
   return (
