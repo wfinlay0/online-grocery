@@ -41,7 +41,12 @@ export default function Home() {
           />
         </div>
         <div style={{ width: "50%" }}>
-          <OutputTable workbook={workbook!} cellRange="B20:C30" />
+          <OutputTable
+            workbook={workbook!}
+            sheet="Main Page"
+            cellRange="B20:C30"
+            labels
+          />
         </div>
       </div>
     </>
