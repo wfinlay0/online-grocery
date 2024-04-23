@@ -38,6 +38,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
             <Table.Tr key={i}>
               <Table.Td>{utils.format_cell(row[0])}</Table.Td>
               <Table.Td>{utils.format_cell(row[1])}</Table.Td>
+              <Table.Td>{utils.format_cell(row[3])}</Table.Td>
             </Table.Tr>
           ))}
       </Table.Tbody>

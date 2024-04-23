@@ -12,7 +12,7 @@ import { InputRow } from "@/types/xlsx-types";
 const XLSX_CALC = require("xlsx-calc");
 
 // install a webpack loader for this?
-const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
+const MODEL_LINK = nextConfig.basePath + "/modelv6.xlsm";
 
 export default function Home() {
   // [ ] add a loading state
@@ -50,7 +50,7 @@ export default function Home() {
           <InputGroup
             workbook={workbook!}
             sheet="Main Page"
-            cellRange="B9:C16"
+            cellRange="B9:C17"
             onSubmit={onInputSubmit}
           />
         </div>
@@ -58,7 +58,7 @@ export default function Home() {
           <OutputTable
             workbook={workbook!}
             sheet="Main Page"
-            cellRange="B20:C30"
+            cellRange="B26:E37"
             labels
           />
         </div>
