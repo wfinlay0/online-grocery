@@ -1,6 +1,6 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getDenseCellRange } from "@/utils/xlsx-utils";
-import { Button, NumberInput } from "@mantine/core";
+import { Button, NumberInput, Loader } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 
@@ -19,6 +19,7 @@ interface IInputGroupProps {
    */
   cellRange: string;
   onSubmit: (content: InputRow[]) => void;
+  loading: boolean;
 }
 
 /**
@@ -41,7 +42,11 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
       parseInt(utils.format_cell(row[1])),
     ]);
     setData(inputRows);
-  }, [props.cellRange, props.sheet, props.workbook]);
+  }, [props.cellRange, props.sheet, props.workbook, props.loading]);
+
+  React.useEffect(() => {
+    
+  }, [props.loading]);
 
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
@@ -65,9 +70,14 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
             />
           </div>
         ))}
-        <Button my={"1em"} onClick={() => props.onSubmit(data)}>
-          Submit
-        </Button>
+        { props.loading ? 
+          <Loader/> : 
+          <Button hidden={props.loading} my={"1em"} onClick={() => props.onSubmit(data)}>
+            Submit
+          </Button>
+        }
+        
+        
       </div>
     )
   );

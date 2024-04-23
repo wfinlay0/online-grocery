@@ -2,12 +2,13 @@
 
 import InputGroup from "@/components/InputGroup/InputGroup";
 import * as React from "react";
-import { WorkBook, utils } from "xlsx";
+import { WorkBook, utils, read, CellObject } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import Welcome from "@/components/Welcome/Welcome";
-import { readCustom } from "@/utils/xlsx-utils";
 import { InputRow } from "@/types/xlsx-types";
+import { getDenseCellRange } from "@/utils/xlsx-utils";
+
 
 const XLSX_CALC = require("xlsx-calc");
 
@@ -17,14 +18,21 @@ const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
 export default function Home() {
   // [ ] add a loading state
   const [workbook, setWorkbook] = React.useState<WorkBook>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [outputRows, setOutputRows] = React.useState<CellObject[][]>();
+  const [outputHeaders, setOutputHeaders] = React.useState<CellObject[]>();
 
   React.useEffect(() => {
     fetch(MODEL_LINK)
       .then((res) => res.arrayBuffer())
-      .then(readCustom)
+      .then(read)
       .then(setWorkbook)
       .catch(console.error);
   }, []);
+
+  React.useEffect(() => {
+    updateOutputTable();
+  }, [workbook]);
 
   // [ ] test out the `bookDeps` flag in `xlsx.read` for performance
   const recalculate = (wb: WorkBook) => {
@@ -33,14 +41,40 @@ export default function Home() {
 
   const onInputSubmit = (data: InputRow[]) => {
     const tmp = structuredClone(workbook);
+    console.log(workbook);
+
     // FIXME: origin should be in the callback, parse it out from the cellRange prop
     utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin: "B9" });
-    console.log(tmp);
-    const recalc = XLSX_CALC(tmp, { continue_after_error: true });
-    console.log(recalc);
 
-    setWorkbook(recalc);
+    setLoading(true);
+    setTimeout(() => {}, 3000);
+    XLSX_CALC(tmp, { continue_after_error: true });
+
+    console.log(tmp);
+    setWorkbook(tmp);
+    updateOutputTable();
+    setLoading(false);
   };
+
+  const updateOutputTable = () => {
+    if(workbook){
+
+      const data = getDenseCellRange(
+        workbook.Sheets["Main Page"],
+        "B21:C30"
+      );
+
+      const headers = getDenseCellRange(
+        workbook.Sheets["Main Page"],
+        "B20:C20"
+      )
+
+      setOutputRows(data);
+      setOutputHeaders(headers[0]);
+    }
+
+
+  }
 
   return (
     <>
@@ -52,14 +86,13 @@ export default function Home() {
             sheet="Main Page"
             cellRange="B9:C16"
             onSubmit={onInputSubmit}
+            loading={loading}
           />
         </div>
         <div style={{ width: "50%" }}>
           <OutputTable
-            workbook={workbook!}
-            sheet="Main Page"
-            cellRange="B20:C30"
-            labels
+            headers={outputHeaders}
+            rows={outputRows}
           />
         </div>
       </div>
