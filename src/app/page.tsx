@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
 
   // FIXME: during loading, inputs revert to original values
-  const onInputSubmit = (data: InputRow[]) => {
+  const onInputSubmit = (data: InputRow[], origin: string) => {
     setLoading(true);
 
     if (typeof Worker !== "undefined") {
@@ -35,16 +35,14 @@ export default function Home() {
       );
 
       recalcWorker.onmessage = (e) => {
-        console.log(e.data);
         setWorkbook(e.data);
         setLoading(false);
       };
 
       const tmp = structuredClone(workbook);
-      console.log(tmp);
 
       // FIXME: origin should be in the callback, parse it out from the cellRange prop
-      utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin: "B9" });
+      utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin });
 
       recalcWorker.postMessage(tmp);
     } else {

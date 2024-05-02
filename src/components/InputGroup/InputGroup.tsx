@@ -18,7 +18,13 @@ interface IInputGroupProps {
    * - if more than 2 colums, won't throw an error, but only first 2 will be considered
    */
   cellRange: string;
-  onSubmit: (content: InputRow[]) => void;
+  /**
+   *
+   * @param content
+   * @param origin the cell where the content should be reinserted (top left of the range)
+   * @returns
+   */
+  onSubmit: (content: InputRow[], origin: string) => void;
   loading: boolean;
 }
 
@@ -42,7 +48,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
       parseInt(utils.format_cell(row[1])),
     ]);
     setData(inputRows);
-  }, [props.cellRange, props.sheet, props.workbook, props.loading]);
+  }, [props.cellRange, props.sheet, props.workbook]);
 
   React.useEffect(() => {}, [props.loading]);
 
@@ -74,7 +80,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
           <Button
             hidden={props.loading}
             my={"1em"}
-            onClick={() => props.onSubmit(data)}
+            onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
           >
             Submit
           </Button>
