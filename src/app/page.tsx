@@ -8,14 +8,13 @@ import nextConfig from "../../next.config.mjs";
 import Welcome from "@/components/Welcome/Welcome";
 import { InputRow } from "@/types/xlsx-types";
 
-const XLSX_CALC = require("xlsx-calc");
-
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>("");
 
   React.useEffect(() => {
     fetch(MODEL_LINK)
@@ -28,18 +27,27 @@ export default function Home() {
   const onInputSubmit = (data: InputRow[]) => {
     setLoading(true);
 
-    const tmp = structuredClone(workbook);
-    console.log(tmp);
+    if (typeof Worker !== "undefined") {
+      const recalcWorker = new Worker(
+        new URL("./xlsx-calc.worker.ts", import.meta.url)
+      );
 
-    // FIXME: origin should be in the callback, parse it out from the cellRange prop
-    utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin: "B9" });
+      recalcWorker.onmessage = (e) => {
+        console.log(e.data);
+        setWorkbook(e.data);
+        setLoading(false);
+      };
 
-    XLSX_CALC(tmp, { continue_after_error: true });
+      const tmp = structuredClone(workbook);
+      console.log(tmp);
 
-    console.log(tmp);
-    setWorkbook(tmp);
+      // FIXME: origin should be in the callback, parse it out from the cellRange prop
+      utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin: "B9" });
 
-    setLoading(false);
+      recalcWorker.postMessage(tmp);
+    } else {
+      setError("Your browser does not support this app.");
+    }
   };
 
   return (
