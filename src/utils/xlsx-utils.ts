@@ -13,7 +13,7 @@ export const readCustom = (data: ArrayBuffer) => read(data, { dense: true });
  * @param range
  * @returns an array of rows
  */
-export const getCellRange = (
+export const getCellRangeValues = (
   sheet: WorkSheet,
   range: string
 ): CellObject[][] => {

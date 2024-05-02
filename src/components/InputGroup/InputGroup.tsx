@@ -1,5 +1,5 @@
 import { InputRow } from "@/types/xlsx-types";
-import { getCellRange } from "@/utils/xlsx-utils";
+import { getCellRangeValues } from "@/utils/xlsx-utils";
 import { Button, NumberInput, Loader } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
@@ -33,7 +33,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // [ ] mantine use form
 
   React.useEffect(() => {
-    const cellArray = getCellRange(
+    const cellArray = getCellRangeValues(
       props.workbook?.Sheets[props.sheet],
       props.cellRange
     );
