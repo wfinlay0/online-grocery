@@ -36,8 +36,8 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         {rows &&
           rows.slice(+props.labels).map((row, i) => (
             <Table.Tr key={i}>
-              <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-              <Table.Td>{utils.format_cell(row[1])}</Table.Td>
+              <Table.Td>{row[0].v?.toString()}</Table.Td>
+              <Table.Td>{row[1].v?.toString()}</Table.Td>
             </Table.Tr>
           ))}
       </Table.Tbody>
