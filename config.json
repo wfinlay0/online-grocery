@@ -1,0 +1,5 @@
+{
+  "modelName": "model.xlsm",
+  "inputGroups": ["B9:C16"],
+  "outputGroups": ["B20:C30"]
+}
