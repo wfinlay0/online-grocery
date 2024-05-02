@@ -7,8 +7,7 @@ import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import Welcome from "@/components/Welcome/Welcome";
 import { InputRow } from "@/types/xlsx-types";
-import { getDenseCellRange } from "@/utils/xlsx-utils";
-
+import { getCellRange } from "@/utils/xlsx-utils";
 
 const XLSX_CALC = require("xlsx-calc");
 
@@ -16,7 +15,6 @@ const XLSX_CALC = require("xlsx-calc");
 const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
 
 export default function Home() {
-  // [ ] add a loading state
   const [workbook, setWorkbook] = React.useState<WorkBook>();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [outputRows, setOutputRows] = React.useState<CellObject[][]>();
@@ -34,47 +32,34 @@ export default function Home() {
     updateOutputTable();
   }, [workbook]);
 
-  // [ ] test out the `bookDeps` flag in `xlsx.read` for performance
-  const recalculate = (wb: WorkBook) => {
-    setWorkbook(XLSX_CALC(wb));
-  };
-
   const onInputSubmit = (data: InputRow[]) => {
+    setLoading(true);
+
     const tmp = structuredClone(workbook);
     console.log(workbook);
 
     // FIXME: origin should be in the callback, parse it out from the cellRange prop
     utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin: "B9" });
 
-    setLoading(true);
-    setTimeout(() => {}, 3000);
     XLSX_CALC(tmp, { continue_after_error: true });
 
     console.log(tmp);
     setWorkbook(tmp);
     updateOutputTable();
+
     setLoading(false);
   };
 
   const updateOutputTable = () => {
-    if(workbook){
+    if (workbook) {
+      const data = getCellRange(workbook.Sheets["Main Page"], "B21:C30");
 
-      const data = getDenseCellRange(
-        workbook.Sheets["Main Page"],
-        "B21:C30"
-      );
-
-      const headers = getDenseCellRange(
-        workbook.Sheets["Main Page"],
-        "B20:C20"
-      )
+      const headers = getCellRange(workbook.Sheets["Main Page"], "B20:C20");
 
       setOutputRows(data);
       setOutputHeaders(headers[0]);
     }
-
-
-  }
+  };
 
   return (
     <>
@@ -90,10 +75,7 @@ export default function Home() {
           />
         </div>
         <div style={{ width: "50%" }}>
-          <OutputTable
-            headers={outputHeaders}
-            rows={outputRows}
-          />
+          <OutputTable headers={outputHeaders} rows={outputRows} />
         </div>
       </div>
     </>

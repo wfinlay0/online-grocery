@@ -1,5 +1,5 @@
 import { InputRow } from "@/types/xlsx-types";
-import { getDenseCellRange } from "@/utils/xlsx-utils";
+import { getCellRange } from "@/utils/xlsx-utils";
 import { Button, NumberInput, Loader } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
@@ -33,7 +33,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // [ ] mantine use form
 
   React.useEffect(() => {
-    const cellArray = getDenseCellRange(
+    const cellArray = getCellRange(
       props.workbook?.Sheets[props.sheet],
       props.cellRange
     );
@@ -44,9 +44,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     setData(inputRows);
   }, [props.cellRange, props.sheet, props.workbook, props.loading]);
 
-  React.useEffect(() => {
-    
-  }, [props.loading]);
+  React.useEffect(() => {}, [props.loading]);
 
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
@@ -70,14 +68,17 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
             />
           </div>
         ))}
-        { props.loading ? 
-          <Loader/> : 
-          <Button hidden={props.loading} my={"1em"} onClick={() => props.onSubmit(data)}>
+        {props.loading ? (
+          <Loader />
+        ) : (
+          <Button
+            hidden={props.loading}
+            my={"1em"}
+            onClick={() => props.onSubmit(data)}
+          >
             Submit
           </Button>
-        }
-        
-        
+        )}
       </div>
     )
   );

@@ -1,4 +1,4 @@
-import { getDenseCellRange } from "@/utils/xlsx-utils";
+import { getCellRange } from "@/utils/xlsx-utils";
 import { Table } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
@@ -9,16 +9,15 @@ interface IOutputTableProps {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-
   return (
     <Table>
-        <Table.Thead>
-          <Table.Tr>
-            {props.headers?.map((labelCell, i) => (
-              <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
+      <Table.Thead>
+        <Table.Tr>
+          {props.headers?.map((labelCell, i) => (
+            <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
+          ))}
+        </Table.Tr>
+      </Table.Thead>
       <Table.Tbody>
         {props.rows &&
           props.rows.map((row, i) => (
