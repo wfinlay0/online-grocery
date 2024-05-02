@@ -13,6 +13,7 @@ const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
+  // [ ] https://codepen.io/gareys/pen/meRgLG
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>("");
 
@@ -24,6 +25,7 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
+  // FIXME: during loading, inputs revert to original values
   const onInputSubmit = (data: InputRow[]) => {
     setLoading(true);
 
@@ -50,6 +52,7 @@ export default function Home() {
     }
   };
 
+  // [ ] extract all cell references to a config file
   return (
     <>
       <Welcome />

@@ -47,3 +47,8 @@ export const getCellRangeValues = (
 
   return [[]];
 };
+
+export const customFormat = (cell: CellObject): string => {
+  if (!cell.v || typeof cell.v !== "number") return "";
+  return (Math.floor(cell.v * 100) / 100).toString();
+};
