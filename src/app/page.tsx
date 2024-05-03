@@ -69,6 +69,7 @@ export default function Home() {
             sheet="Main Page"
             cellRange="B20:C30"
             labels
+            loading={loading}
           />
         </div>
       </div>

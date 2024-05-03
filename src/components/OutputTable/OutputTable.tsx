@@ -1,7 +1,8 @@
 import { customFormat, getCellRangeValues } from "@/utils/xlsx-utils";
-import { Table } from "@mantine/core";
+import { Box, LoadingOverlay, Table } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
+import CustomSpinner from "./CustomSpinner";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -11,6 +12,7 @@ interface IOutputTableProps {
    * if true, the first row will be interpreted as column headers, defaults to `true`
    */
   labels: boolean;
+  loading: boolean;
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
@@ -22,26 +24,32 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   const labelRow: CellObject[] | boolean = props.labels && rows[0];
 
   return (
-    <Table>
-      {labelRow && (
-        <Table.Thead>
-          <Table.Tr>
-            {labelRow.map((labelCell, i) => (
-              <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-      )}
-      <Table.Tbody>
-        {rows &&
-          rows.slice(+props.labels).map((row, i) => (
-            <Table.Tr key={i}>
-              <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-              <Table.Td>{customFormat(row[1])}</Table.Td>
+    <Box pos="relative">
+      <LoadingOverlay
+        visible={props.loading}
+        loaderProps={{ children: <CustomSpinner /> }}
+      />
+      <Table>
+        {labelRow && (
+          <Table.Thead>
+            <Table.Tr>
+              {labelRow.map((labelCell, i) => (
+                <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
+              ))}
             </Table.Tr>
-          ))}
-      </Table.Tbody>
-    </Table>
+          </Table.Thead>
+        )}
+        <Table.Tbody>
+          {rows &&
+            rows.slice(+props.labels).map((row, i) => (
+              <Table.Tr key={i}>
+                <Table.Td>{utils.format_cell(row[0])}</Table.Td>
+                <Table.Td>{customFormat(row[1])}</Table.Td>
+              </Table.Tr>
+            ))}
+        </Table.Tbody>
+      </Table>
+    </Box>
   );
 };
 

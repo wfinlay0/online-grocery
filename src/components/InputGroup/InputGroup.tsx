@@ -74,17 +74,13 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
             />
           </div>
         ))}
-        {props.loading ? (
-          <Loader />
-        ) : (
-          <Button
-            hidden={props.loading}
-            my={"1em"}
-            onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
-          >
-            Submit
-          </Button>
-        )}
+        <Button
+          my={"1em"}
+          onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
+          disabled={props.loading}
+        >
+          Submit
+        </Button>
       </div>
     )
   );
