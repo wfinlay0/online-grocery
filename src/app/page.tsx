@@ -25,10 +25,10 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  // FIXME: during loading, inputs revert to original values
   const onInputSubmit = (data: InputRow[], origin: string) => {
     setLoading(true);
 
+    // xlsx-calc is doing a lot of work and will block the UI, so we must run it in a web worker
     if (typeof Worker !== "undefined") {
       const recalcWorker = new Worker(
         new URL("./xlsx-calc.worker.ts", import.meta.url)
@@ -40,10 +40,9 @@ export default function Home() {
       };
 
       const tmp = structuredClone(workbook);
-
-      // FIXME: origin should be in the callback, parse it out from the cellRange prop
       utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin });
 
+      // start the worker
       recalcWorker.postMessage(tmp);
     } else {
       setError("Your browser does not support this app.");
@@ -70,6 +69,7 @@ export default function Home() {
             sheet="Main Page"
             cellRange="B20:C30"
             labels
+            loading={loading}
           />
         </div>
       </div>
