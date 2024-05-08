@@ -60,6 +60,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     });
   };
 
+  // TODO: take number format (e.g. percentage, dollar, etc.) (`.z` cell prop) into account
   return (
     data && (
       <div>

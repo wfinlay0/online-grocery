@@ -9,11 +9,10 @@ import Welcome from "@/components/Welcome/Welcome";
 import { InputRow } from "@/types/xlsx-types";
 
 // install a webpack loader for this?
-const MODEL_LINK = nextConfig.basePath + "/model.xlsm";
+const MODEL_LINK = nextConfig.basePath + "/modelv6.xlsm";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
-  // [ ] https://codepen.io/gareys/pen/meRgLG
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<string>("");
 
@@ -58,7 +57,7 @@ export default function Home() {
           <InputGroup
             workbook={workbook!}
             sheet="Main Page"
-            cellRange="B9:C16"
+            cellRange="B9:C17"
             onSubmit={onInputSubmit}
             loading={loading}
           />
@@ -67,7 +66,7 @@ export default function Home() {
           <OutputTable
             workbook={workbook!}
             sheet="Main Page"
-            cellRange="B20:C30"
+            cellRange="B26:C36"
             labels
             loading={loading}
           />
