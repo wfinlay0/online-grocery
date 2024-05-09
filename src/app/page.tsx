@@ -5,8 +5,9 @@ import * as React from "react";
 import { WorkBook, utils, read } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
-import Welcome from "@/components/Welcome/Welcome";
 import { InputRow } from "@/types/xlsx-types";
+import styles from "./page.module.css";
+import { Box, Flex, Title } from "@mantine/core";
 
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv6.xlsm";
@@ -50,10 +51,23 @@ export default function Home() {
 
   // [ ] extract all cell references to a config file
   return (
-    <>
-      <Welcome />
-      <div style={{ height: "50vh", display: "flex", flexDirection: "row" }}>
-        <div style={{ width: "50%" }}>
+    <div>
+      <Flex direction={"column"} align={"center"} my={100}>
+        <Title order={1} my={10} ta={"center"}>
+          Welcome to the{" "}
+          <Box display={"inline"} c={"var(--mantine-primary-color-filled)"}>
+            grocery store picker
+          </Box>{" "}
+          simulator
+        </Title>
+        <Box maw={1200} ta={"center"}>
+          Simulate grocery store picking scenarios to inform your decisions on
+          whether or not to provide full service grocery store picking based on
+          a Wharton Univerity research model
+        </Box>
+      </Flex>
+      <Flex className={styles.ioContainer} maw={1200} mx={"auto"} gap={"xl"}>
+        <div>
           <InputGroup
             workbook={workbook!}
             sheet="Main Page"
@@ -62,7 +76,7 @@ export default function Home() {
             loading={loading}
           />
         </div>
-        <div style={{ width: "50%" }}>
+        <div>
           <OutputTable
             workbook={workbook!}
             sheet="Main Page"
@@ -71,7 +85,7 @@ export default function Home() {
             loading={loading}
           />
         </div>
-      </div>
-    </>
+      </Flex>
+    </div>
   );
 }
