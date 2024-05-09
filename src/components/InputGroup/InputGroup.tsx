@@ -1,12 +1,12 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Button, NumberInput, Loader } from "@mantine/core";
+import { Button, NumberInput } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 
-/* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would be able to get
- * rid of the OutputTable component completely, there is enough shared functionality. could also find some other clever
- * way to do the code splitting similar to extending a parent class. tbd
+/* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
+ * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
+ * some other clever way to do the code splitting similar to extending a parent class. tbd
  */
 interface IInputGroupProps {
   workbook: WorkBook;
@@ -49,8 +49,6 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     ]);
     setData(inputRows);
   }, [props.cellRange, props.sheet, props.workbook]);
-
-  React.useEffect(() => {}, [props.loading]);
 
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
