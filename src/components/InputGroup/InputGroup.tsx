@@ -1,10 +1,18 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Button, Flex, NumberInput, Text } from "@mantine/core";
+import {
+  Button,
+  Container,
+  Flex,
+  NumberInput,
+  Table,
+  Text,
+} from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 import BeasonInput from "../BeasonInput/BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
+import { relative } from "path";
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
  * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
@@ -63,30 +71,40 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // TODO: take number format (e.g. percentage, dollar, etc.) (`.z` cell prop) into account
   return (
     data && (
-      <div>
-        {data.map((row, idx) => (
-          <Flex key={idx} justify={"space-between"}>
-            <Flex align={"center"}>
-              {row[0]}&nbsp;
-              <IconHelp size={17} color="lightgray" />
-            </Flex>
-            <BeasonInput
-              value={row[1]}
-              allowDecimal={false}
-              allowNegative={false}
-              onChange={(value) => onInputChange(value, idx)}
-              key={idx}
-            />
-          </Flex>
-        ))}
+      <Container pos={"relative"}>
+        <Table>
+          <Table.Tbody>
+            {data.map((row, idx) => (
+              <Table.Tr key={idx}>
+                <Flex justify={"space-between"} p={10} wrap={"wrap"}>
+                  <Flex align={"center"} miw={320} p={10}>
+                    {row[0]}&nbsp;
+                    <Flex align={"center"}>
+                      <IconHelp size={17} color="lightgray" />
+                    </Flex>
+                  </Flex>
+                  <BeasonInput
+                    value={row[1]}
+                    allowDecimal={false}
+                    allowNegative={false}
+                    onChange={(value) => onInputChange(value, idx)}
+                    key={idx}
+                  />
+                </Flex>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
         <Button
           my={"1em"}
           onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
           disabled={props.loading}
+          pos={"absolute"}
+          right={0}
         >
-          Submit
+          Calculate
         </Button>
-      </div>
+      </Container>
     )
   );
 };

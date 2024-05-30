@@ -16,7 +16,7 @@ const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
   const theme = useMantineTheme();
 
   return (
-    <Flex align={"center"} gap={16}>
+    <Flex align={"center"} gap={16} miw={172}>
       <ActionIcon
         variant="filled"
         radius={"xl"}
