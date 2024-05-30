@@ -1,4 +1,3 @@
-import Image from "next/image";
 import * as React from "react";
 import {
   ActionIcon,
@@ -6,6 +5,7 @@ import {
   NumberInput,
   NumberInputHandlers,
   NumberInputProps,
+  useMantineTheme,
 } from "@mantine/core";
 import { IconPlus, IconMinus } from "@tabler/icons-react";
 
@@ -13,6 +13,7 @@ interface IBeasonInputProps extends NumberInputProps {}
 
 const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
   const handlersRef = React.useRef<NumberInputHandlers>(null);
+  const theme = useMantineTheme();
 
   return (
     <Flex align={"center"} gap={16}>
@@ -20,8 +21,9 @@ const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
         variant="filled"
         radius={"xl"}
         onClick={() => handlersRef.current?.decrement()}
+        color={theme.colors.gray[2]}
       >
-        <IconMinus></IconMinus>
+        <IconMinus color={theme.colors.blue[5]} size={16} />
       </ActionIcon>
       <NumberInput
         hideControls
@@ -40,8 +42,9 @@ const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
         variant="filled"
         radius={"xl"}
         onClick={() => handlersRef.current?.increment()}
+        color={theme.colors.gray[2]}
       >
-        <IconPlus></IconPlus>
+        <IconPlus color={theme.colors.blue[5]} size={16} />
       </ActionIcon>
     </Flex>
   );
