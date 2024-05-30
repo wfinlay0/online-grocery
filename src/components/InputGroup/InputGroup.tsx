@@ -1,18 +1,10 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import {
-  Button,
-  Container,
-  Flex,
-  NumberInput,
-  Table,
-  Text,
-} from "@mantine/core";
+import { Button, Container, Flex, Table } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
-import BeasonInput from "../BeasonInput/BeasonInput";
+import BeasonInput from "./BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
-import { relative } from "path";
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
  * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
