@@ -1,7 +1,6 @@
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
-import whartonLogo from "../../public/images/Wharton-Logo.png";
 
 import {
   ColorSchemeScript,
@@ -13,6 +12,7 @@ import {
   Group,
   Flex,
   Image,
+  Text,
 } from "@mantine/core";
 // import Image from "next/image";
 import Link from "next/link";
@@ -53,8 +53,12 @@ export default function RootLayout({
             </AppShellHeader>
             <AppShellMain>{children}</AppShellMain>
             <AppShellFooter style={{ position: "static" }}>
-              <Flex justify={"center"} align={"center"} h={"100%"} gap={5}>
-                Built by
+              <Flex
+                justify={"space-between"}
+                align={"center"}
+                h={"100%"}
+                p={20}
+              >
                 <Link href={"https://www.westmonroe.com/"}>
                   <Image
                     src={WM_LOGO_URL}
@@ -63,6 +67,7 @@ export default function RootLayout({
                     height={25}
                   />
                 </Link>
+                <Text>&copy; 2024 West Monroe. All Rights Reserved</Text>
               </Flex>
             </AppShellFooter>
           </AppShell>

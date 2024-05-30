@@ -1,6 +1,6 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Button, Container, Flex, Table } from "@mantine/core";
+import { Box, Button, Flex, Table } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 import BeasonInput from "./BeasonInput";
@@ -63,13 +63,13 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // TODO: take number format (e.g. percentage, dollar, etc.) (`.z` cell prop) into account
   return (
     data && (
-      <Container pos={"relative"}>
+      <Box pos={"relative"}>
         <Table>
           <Table.Tbody>
             {data.map((row, idx) => (
               <Table.Tr key={idx}>
-                <Flex justify={"space-between"} p={10} wrap={"wrap"}>
-                  <Flex align={"center"} miw={320} p={10}>
+                <Flex justify={"space-between"} py={10} wrap={"wrap"}>
+                  <Flex align={"center"} miw={320} py={10}>
                     {row[0]}&nbsp;
                     <Flex align={"center"}>
                       <IconHelp size={17} color="lightgray" />
@@ -96,7 +96,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
         >
           Calculate
         </Button>
-      </Container>
+      </Box>
     )
   );
 };
