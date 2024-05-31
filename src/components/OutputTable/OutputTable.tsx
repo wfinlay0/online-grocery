@@ -1,8 +1,10 @@
 import { customFormat, getCellRangeValues } from "@/utils/xlsx-utils";
-import { Box, LoadingOverlay, Table } from "@mantine/core";
+import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
+import BeasonOutput from "./BeasonOutput";
+import { IconClock } from "@tabler/icons-react";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -15,16 +17,25 @@ interface IOutputTableProps {
   loading: boolean;
 }
 
+interface ISubGroup {
+  name: string;
+  data: CellObject[];
+}
+
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   let rows = getCellRangeValues(
     props.workbook?.Sheets["Main Page"],
     props.cellRange
   );
 
-  const labelRow: CellObject[] | boolean = props.labels && rows[0];
+  const labelRow: CellObject[] | boolean = rows[0];
 
   return (
-    <Box pos="relative">
+    <Paper pos="relative" withBorder p={"lg"}>
+      <Text tt="uppercase" c="gray">
+        Calculation
+      </Text>
+      <Title order={2}>Fulfillment Time & Revenue</Title>
       <LoadingOverlay
         visible={props.loading}
         loaderProps={{ children: <CustomSpinner /> }}
@@ -44,12 +55,16 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
             rows.slice(+props.labels).map((row, i) => (
               <Table.Tr key={i}>
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-                <Table.Td>{customFormat(row[1])}</Table.Td>
+                <BeasonOutput
+                  value={customFormat(row[1])}
+                  icon={IconClock}
+                  label={utils.format_cell(labelRow[1])}
+                />
               </Table.Tr>
             ))}
         </Table.Tbody>
       </Table>
-    </Box>
+    </Paper>
   );
 };
 
