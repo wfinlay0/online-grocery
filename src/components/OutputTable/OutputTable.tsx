@@ -40,7 +40,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         visible={props.loading}
         loaderProps={{ children: <CustomSpinner /> }}
       />
-      <Table>
+      <Table withRowBorders={false}>
         {labelRow && (
           <Table.Thead>
             <Table.Tr>
@@ -53,13 +53,15 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         <Table.Tbody>
           {rows &&
             rows.slice(+props.labels).map((row, i) => (
-              <Table.Tr key={i}>
+              <Table.Tr key={i} py={"lg"}>
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-                <BeasonOutput
-                  value={customFormat(row[1])}
-                  icon={IconClock}
-                  label={utils.format_cell(labelRow[1])}
-                />
+                <Table.Td>
+                  <BeasonOutput
+                    value={customFormat(row[1])}
+                    icon={IconClock}
+                    label={utils.format_cell(labelRow[1])}
+                  />
+                </Table.Td>
               </Table.Tr>
             ))}
         </Table.Tbody>

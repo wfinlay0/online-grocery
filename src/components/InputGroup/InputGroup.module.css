@@ -1,0 +1,21 @@
+.InputGroup {
+  .wmButton {
+    border-radius: 0;
+
+    background: var(
+      --WM-Gradient,
+      radial-gradient(
+        123.16% 146.84% at 0% 100%,
+        #1a4b84 0%,
+        #550539 45%,
+        #43022a 54%,
+        #020000 100%
+      )
+    );
+  }
+
+  .wmButton:hover {
+    background: linear-gradient(90deg, #ffd303 -21.26%, #ff9914 100.59%);
+    color: black;
+  }
+}
