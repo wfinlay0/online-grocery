@@ -51,38 +51,36 @@ export default function Home() {
 
   // [ ] extract all cell references to a config file
   return (
-    <Box>
-      <Box maw={1200} mx={"auto"}>
-        <Box maw={500}>
-          <Title>What is this?</Title>
-          <Text>
-            This is a grocery store picking simulation where you can create
-            scenarios to inform your decisions on whether or not to provide
-            full-service grocery store picking using a research model created by
-            Wharton University.
-          </Text>
-        </Box>
-        <Flex className={styles.ioContainer} gap={"xl"}>
-          <div>
-            <InputGroup
-              workbook={workbook!}
-              sheet="Main Page"
-              cellRange="B9:C17"
-              onSubmit={onInputSubmit}
-              loading={loading}
-            />
-          </div>
-          <div>
-            <OutputTable
-              workbook={workbook!}
-              sheet="Main Page"
-              cellRange="B26:C36"
-              labels
-              loading={loading}
-            />
-          </div>
-        </Flex>
+    <Box maw={1200} mx={"auto"}>
+      <Box maw={500}>
+        <Title order={4}>What is this?</Title>
+        <Text>
+          This is a grocery store picking simulation where you can create
+          scenarios to inform your decisions on whether or not to provide
+          full-service grocery store picking using a research model created by
+          Wharton University.
+        </Text>
       </Box>
+      <Flex className={styles.ioContainer} gap={"xl"}>
+        <div>
+          <InputGroup
+            workbook={workbook!}
+            sheet="Main Page"
+            cellRange="B9:C17"
+            onSubmit={onInputSubmit}
+            loading={loading}
+          />
+        </div>
+        <div>
+          <OutputTable
+            workbook={workbook!}
+            sheet="Main Page"
+            cellRange="B26:C36"
+            labels
+            loading={loading}
+          />
+        </div>
+      </Flex>
     </Box>
   );
 }

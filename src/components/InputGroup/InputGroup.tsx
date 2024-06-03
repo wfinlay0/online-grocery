@@ -1,10 +1,11 @@
 import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Box, Button, Flex, Table } from "@mantine/core";
+import { Box, Button, Flex, Table, Title } from "@mantine/core";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 import BeasonInput from "./BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
+import styles from "./InputGroup.module.css";
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
  * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
@@ -63,13 +64,14 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // TODO: take number format (e.g. percentage, dollar, etc.) (`.z` cell prop) into account
   return (
     data && (
-      <Box pos={"relative"}>
+      <Box className={styles.InputGroup}>
+        <Title order={2}>Make Your Selections</Title>
         <Table>
           <Table.Tbody>
             {data.map((row, idx) => (
               <Table.Tr key={idx}>
-                <Flex justify={"space-between"} py={10} wrap={"wrap"}>
-                  <Flex align={"center"} miw={320} py={10}>
+                <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
+                  <Flex align={"center"} miw={320} py={"xs"}>
                     {row[0]}&nbsp;
                     <Flex align={"center"}>
                       <IconHelp size={17} color="lightgray" />
@@ -87,15 +89,16 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
             ))}
           </Table.Tbody>
         </Table>
-        <Button
-          my={"1em"}
-          onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
-          disabled={props.loading}
-          pos={"absolute"}
-          right={0}
-        >
-          Calculate
-        </Button>
+        <Flex justify={"flex-end"}>
+          <Button
+            className={styles.wmButton}
+            my={"1em"}
+            onClick={() => props.onSubmit(data, props.cellRange.split(":")[0])}
+            disabled={props.loading}
+          >
+            Calculate
+          </Button>
+        </Flex>
       </Box>
     )
   );
