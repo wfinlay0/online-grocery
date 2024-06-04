@@ -3,7 +3,7 @@ import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
-import BeasonOutput from "./BeasonOutput";
+import BeasonOutput from "./BeasonOutput/BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/constants";
 
