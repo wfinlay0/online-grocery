@@ -9,10 +9,10 @@ import { InputRow } from "@/types/xlsx-types";
 import styles from "./page.module.css";
 import { Text, Flex, Title, Box } from "@mantine/core";
 import { readCustom } from "@/utils/xlsx-utils";
+import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
-export const SHEET_NAME = "Main Page";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -68,7 +68,7 @@ export default function Home() {
           <InputGroup
             workbook={workbook!}
             sheet={SHEET_NAME}
-            cellRange="B9:C17"
+            cellRange={inputRange}
             onSubmit={onInputSubmit}
             loading={loading}
           />
@@ -77,7 +77,7 @@ export default function Home() {
           <OutputTable
             workbook={workbook!}
             sheet={SHEET_NAME}
-            cellRange="B26:E40"
+            cellRange={outputRange}
             loading={loading}
           />
         </div>

@@ -5,7 +5,7 @@ import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
-import { SHEET_NAME } from "@/app/page";
+import { SHEET_NAME } from "@/constants";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -21,7 +21,7 @@ interface ISubGroup {
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
-  let rows = getCellRangeValues(
+  const rows = getCellRangeValues(
     props.workbook?.Sheets[SHEET_NAME],
     props.cellRange
   );
