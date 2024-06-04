@@ -20,6 +20,7 @@ interface ISubGroup {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
+  /* TODO: might be able to use utils.sheet_to_json here instead of custom */
   let rows = getCellRangeValues(
     props.workbook?.Sheets[SHEET_NAME],
     props.cellRange
@@ -44,6 +45,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
               <Table.Tr key={i} py={"lg"}>
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
                 <Table.Td>
+                  {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
                   <BeasonOutput
                     value={timeFormat(parseInt(utils.format_cell(row[1])))}
                     icon={IconClock}
