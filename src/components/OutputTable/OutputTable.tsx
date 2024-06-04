@@ -1,4 +1,4 @@
-import { customFormat, getCellRangeValues } from "@/utils/xlsx-utils";
+import { getCellRangeValues, timeFormat } from "@/utils/xlsx-utils";
 import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
@@ -45,7 +45,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
                 <Table.Td>
                   <BeasonOutput
-                    value={customFormat(row[1])}
+                    value={timeFormat(parseInt(utils.format_cell(row[1])))}
                     icon={IconClock}
                     label={utils.format_cell(labelRow[1])}
                   />
@@ -54,7 +54,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
                   {/* conditional because base case has no incremental revenue */}
                   {row[3]?.v && (
                     <BeasonOutput
-                      value={customFormat(row[3])}
+                      value={utils.format_cell(row[3])}
                       icon={IconPremiumRights}
                       label={utils.format_cell(labelRow[3])}
                     />
