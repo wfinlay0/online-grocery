@@ -48,6 +48,11 @@ export const getCellRangeValues = (
   return [[]];
 };
 
+export const customFormat = (cell: CellObject): number => {
+  if (!cell.v || typeof cell.v !== "number") return NaN;
+  return Math.floor(cell.v * 100) / 100;
+};
+
 export const timeFormat = (min: number): string => {
   let res = '';
 
