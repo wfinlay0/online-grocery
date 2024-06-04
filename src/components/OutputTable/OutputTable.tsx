@@ -4,17 +4,13 @@ import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput";
-import { IconClock } from "@tabler/icons-react";
+import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/app/page";
 
 interface IOutputTableProps {
   workbook: WorkBook;
   sheet: string;
   cellRange: string;
-  /**
-   * if true, the first row will be interpreted as column headers, defaults to `true`
-   */
-  labels: boolean;
   loading: boolean;
 }
 
@@ -44,7 +40,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
       <Table withRowBorders={false}>
         <Table.Tbody>
           {rows &&
-            rows.slice(+props.labels).map((row, i) => (
+            rows.slice(1).map((row, i) => (
               <Table.Tr key={i} py={"lg"}>
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
                 <Table.Td>
@@ -53,6 +49,16 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
                     icon={IconClock}
                     label={utils.format_cell(labelRow[1])}
                   />
+                </Table.Td>
+                <Table.Td>
+                  {/* conditional because base case has no incremental revenue */}
+                  {row[3]?.v && (
+                    <BeasonOutput
+                      value={customFormat(row[3])}
+                      icon={IconPremiumRights}
+                      label={utils.format_cell(labelRow[3])}
+                    />
+                  )}
                 </Table.Td>
               </Table.Tr>
             ))}

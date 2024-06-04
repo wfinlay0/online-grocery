@@ -4,7 +4,7 @@ import * as React from "react";
 import styles from "./BeasonOutput.module.css";
 
 interface IBeasonOutputProps {
-  value: number;
+  value: number | string;
   label?: string;
   format?: undefined;
   icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;

@@ -2,12 +2,13 @@
 
 import InputGroup from "@/components/InputGroup/InputGroup";
 import * as React from "react";
-import { WorkBook, utils, read } from "xlsx";
+import { WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import { InputRow } from "@/types/xlsx-types";
 import styles from "./page.module.css";
 import { Text, Flex, Title, Box } from "@mantine/core";
+import { readCustom } from "@/utils/xlsx-utils";
 
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
@@ -21,7 +22,7 @@ export default function Home() {
   React.useEffect(() => {
     fetch(MODEL_LINK)
       .then((res) => res.arrayBuffer())
-      .then(read)
+      .then(readCustom)
       .then(setWorkbook)
       .catch(console.error);
   }, []);
@@ -77,7 +78,6 @@ export default function Home() {
             workbook={workbook!}
             sheet={SHEET_NAME}
             cellRange="B26:E40"
-            labels
             loading={loading}
           />
         </div>
