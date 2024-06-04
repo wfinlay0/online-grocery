@@ -10,7 +10,8 @@ import styles from "./page.module.css";
 import { Text, Flex, Title, Box } from "@mantine/core";
 
 // install a webpack loader for this?
-const MODEL_LINK = nextConfig.basePath + "/modelv6.xlsm";
+const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
+export const SHEET_NAME = "Main Page";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -40,7 +41,7 @@ export default function Home() {
       };
 
       const tmp = structuredClone(workbook);
-      utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin });
+      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data, { origin });
 
       // start the worker
       recalcWorker.postMessage(tmp);
@@ -65,7 +66,7 @@ export default function Home() {
         <div>
           <InputGroup
             workbook={workbook!}
-            sheet="Main Page"
+            sheet={SHEET_NAME}
             cellRange="B9:C17"
             onSubmit={onInputSubmit}
             loading={loading}
@@ -74,8 +75,8 @@ export default function Home() {
         <div>
           <OutputTable
             workbook={workbook!}
-            sheet="Main Page"
-            cellRange="B26:C36"
+            sheet={SHEET_NAME}
+            cellRange="B26:E40"
             labels
             loading={loading}
           />

@@ -5,6 +5,7 @@ import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput";
 import { IconClock } from "@tabler/icons-react";
+import { SHEET_NAME } from "@/app/page";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -24,7 +25,7 @@ interface ISubGroup {
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   let rows = getCellRangeValues(
-    props.workbook?.Sheets["Main Page"],
+    props.workbook?.Sheets[SHEET_NAME],
     props.cellRange
   );
 
@@ -41,15 +42,6 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         loaderProps={{ children: <CustomSpinner /> }}
       />
       <Table withRowBorders={false}>
-        {labelRow && (
-          <Table.Thead>
-            <Table.Tr>
-              {labelRow.map((labelCell, i) => (
-                <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
-              ))}
-            </Table.Tr>
-          </Table.Thead>
-        )}
         <Table.Tbody>
           {rows &&
             rows.slice(+props.labels).map((row, i) => (
