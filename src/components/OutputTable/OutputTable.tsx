@@ -28,6 +28,47 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
 
   const labelRow: CellObject[] | boolean = rows[0];
 
+  React.useEffect(() => {
+    const test: any[] = utils.sheet_to_json(
+      props.workbook?.Sheets[props.sheet],
+      {
+        range: props.cellRange,
+      }
+    );
+    if (!test || !test.length) return;
+    const colKeys = Object.keys(test[1]);
+    const rowKey = colKeys[0];
+    const getGroupName = (groups: string, n: number) =>
+      groups.split(" - ").map((s) => s.trim())[n];
+    const groups = [
+      { name: test[0][rowKey], data: test[0] }, // base case
+      { name: test[7][rowKey], data: test[7] }, // fulfillment center
+      {
+        name: getGroupName(test[1][rowKey], 0), // in-store fulfillment
+        data: [
+          {
+            name: getGroupName(test[1][rowKey], 1), // salesfloor
+            data: [{ name: getGroupName(test[1][rowKey], 2), data: test[1] }],
+          },
+          {
+            name: getGroupName(test[4][rowKey], 1), // backroom
+            data: [],
+          },
+        ],
+      },
+      {
+        name: getGroupName(test[8][rowKey], 0), // dark store
+        data: [
+          {
+            name: getGroupName(test[8][rowKey], 1), // ship to store
+            data: [],
+          },
+        ],
+      },
+    ];
+    console.log(test, groups);
+  });
+
   return (
     <Paper pos="relative" withBorder p={"lg"}>
       <Text tt="uppercase" c="gray">
