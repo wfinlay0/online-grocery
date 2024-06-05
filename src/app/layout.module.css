@@ -1,0 +1,43 @@
+.wrapper {
+  position: relative;
+  padding-top: rem(180px);
+  padding-bottom: rem(130px);
+  background-image: url(/online-grocery/images/banner.jpg);
+  background-size: cover;
+  background-position: center;
+
+  @media (max-width: 400px) {
+    padding-top: rem(80px);
+    padding-bottom: rem(50px);
+  }
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 68px;
+  color: white;
+
+  @media (max-width: 600px) {
+    font-size: 42px;
+  }
+}
+
+.description {
+  text-align: center;
+
+  @media (max-width: 400px) {
+    text-align: left;
+  }
+}
+
+/* background: url(<path-to-image>) lightgray 50% / cover no-repeat,
+  linear-gradient(180deg, #3576be 9%, #326fb9 18%, #2c4d9a 43%, #0a2136 87%);
+background-blend-mode: screen, normal; */
