@@ -2,15 +2,17 @@
 
 import InputGroup from "@/components/InputGroup/InputGroup";
 import * as React from "react";
-import { WorkBook, utils, read } from "xlsx";
+import { WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import { InputRow } from "@/types/xlsx-types";
 import styles from "./page.module.css";
 import { Text, Flex, Title, Box } from "@mantine/core";
+import { readCustom } from "@/utils/xlsx-utils";
+import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
 // install a webpack loader for this?
-const MODEL_LINK = nextConfig.basePath + "/modelv6.xlsm";
+const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -20,7 +22,7 @@ export default function Home() {
   React.useEffect(() => {
     fetch(MODEL_LINK)
       .then((res) => res.arrayBuffer())
-      .then(read)
+      .then(readCustom)
       .then(setWorkbook)
       .catch(console.error);
   }, []);
@@ -40,7 +42,7 @@ export default function Home() {
       };
 
       const tmp = structuredClone(workbook);
-      utils.sheet_add_aoa(tmp!.Sheets["Main Page"], data, { origin });
+      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data, { origin });
 
       // start the worker
       recalcWorker.postMessage(tmp);
@@ -65,8 +67,8 @@ export default function Home() {
         <div>
           <InputGroup
             workbook={workbook!}
-            sheet="Main Page"
-            cellRange="B9:C17"
+            sheet={SHEET_NAME}
+            cellRange={inputRange}
             onSubmit={onInputSubmit}
             loading={loading}
           />
@@ -74,9 +76,8 @@ export default function Home() {
         <div>
           <OutputTable
             workbook={workbook!}
-            sheet="Main Page"
-            cellRange="B26:C36"
-            labels
+            sheet={SHEET_NAME}
+            cellRange={outputRange}
             loading={loading}
           />
         </div>

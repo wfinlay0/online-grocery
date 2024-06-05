@@ -5,7 +5,7 @@ import { CellObject, WorkSheet, read, utils } from "xlsx";
  * @param data
  * @returns
  */
-export const readCustom = (data: ArrayBuffer) => read(data, { dense: true });
+export const readCustom = (data: ArrayBuffer) => read(data, { cellNF: true });
 
 /**
  * Get an array of cells from a worksheet and an xlsx range
@@ -52,3 +52,15 @@ export const customFormat = (cell: CellObject): number => {
   if (!cell.v || typeof cell.v !== "number") return NaN;
   return Math.floor(cell.v * 100) / 100;
 };
+
+export const timeFormat = (min: number): string => {
+  let res = '';
+
+  const hours = Math.floor(min / 60);
+  if (hours) res = `${hours}h`;
+
+  const rem = min % 60;
+  if (rem) res += `${rem}m`;
+
+  return res;
+}

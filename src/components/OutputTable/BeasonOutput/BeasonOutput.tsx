@@ -4,14 +4,15 @@ import * as React from "react";
 import styles from "./BeasonOutput.module.css";
 
 interface IBeasonOutputProps {
-  value: number;
+  value: number | string;
   label?: string;
   format?: undefined;
   icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
+  block?: boolean;
 }
 
 const BeasonOutput: React.FunctionComponent<IBeasonOutputProps> = (props) => {
-  return (
+  return props.block ? (
     <Paper p={"md"} className={styles.BeasonOutput}>
       <Flex direction="column" gap={8}>
         <props.icon />
@@ -19,6 +20,14 @@ const BeasonOutput: React.FunctionComponent<IBeasonOutputProps> = (props) => {
         <Text className={styles.valueContainer}>{props.value}</Text>
       </Flex>
     </Paper>
+  ) : (
+    <Box className={styles.BeasonOutput}>
+      <Text fz={12} c="gray">{props?.label}</Text>
+      <Flex gap={5}>
+        <props.icon />
+        <Text className={styles.valueContainer}>{props.value}</Text>
+      </Flex>
+    </Box>
   );
 };
 

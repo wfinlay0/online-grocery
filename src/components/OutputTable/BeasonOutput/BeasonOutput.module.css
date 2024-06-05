@@ -1,5 +1,12 @@
 .BeasonOutput {
-  /* border: 1px solid #f4f4f4; */
+  .valueContainer {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px; /* 100% */
+  }
+}
+
+.BeasonOutput.block {
   box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.1);
 
   .valueContainer {

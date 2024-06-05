@@ -70,21 +70,23 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
           <Table.Tbody>
             {data.map((row, idx) => (
               <Table.Tr key={idx}>
-                <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
-                  <Flex align={"center"} miw={320} py={"xs"}>
-                    {row[0]}&nbsp;
-                    <Flex align={"center"}>
-                      <IconHelp size={17} color="lightgray" />
+                <Table.Td>
+                  <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
+                    <Flex align={"center"} miw={320} py={"xs"}>
+                      {row[0]}&nbsp;
+                      <Flex align={"center"}>
+                        <IconHelp size={17} color="lightgray" />
+                      </Flex>
                     </Flex>
+                    <BeasonInput
+                      value={row[1]}
+                      allowDecimal={false}
+                      allowNegative={false}
+                      onChange={(value) => onInputChange(value, idx)}
+                      key={idx}
+                    />
                   </Flex>
-                  <BeasonInput
-                    value={row[1]}
-                    allowDecimal={false}
-                    allowNegative={false}
-                    onChange={(value) => onInputChange(value, idx)}
-                    key={idx}
-                  />
-                </Flex>
+                </Table.Td>
               </Table.Tr>
             ))}
           </Table.Tbody>

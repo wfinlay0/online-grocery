@@ -1,19 +1,16 @@
-import { customFormat, getCellRangeValues } from "@/utils/xlsx-utils";
+import { getCellRangeValues, timeFormat } from "@/utils/xlsx-utils";
 import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
-import BeasonOutput from "./BeasonOutput";
-import { IconClock } from "@tabler/icons-react";
+import BeasonOutput from "./BeasonOutput/BeasonOutput";
+import { IconClock, IconPremiumRights } from "@tabler/icons-react";
+import { SHEET_NAME } from "@/constants";
 
 interface IOutputTableProps {
   workbook: WorkBook;
   sheet: string;
   cellRange: string;
-  /**
-   * if true, the first row will be interpreted as column headers, defaults to `true`
-   */
-  labels: boolean;
   loading: boolean;
 }
 
@@ -23,8 +20,9 @@ interface ISubGroup {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-  let rows = getCellRangeValues(
-    props.workbook?.Sheets["Main Page"],
+  /* TODO: might be able to use utils.sheet_to_json here instead of custom */
+  const rows = getCellRangeValues(
+    props.workbook?.Sheets[SHEET_NAME],
     props.cellRange
   );
 
@@ -41,26 +39,28 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         loaderProps={{ children: <CustomSpinner /> }}
       />
       <Table withRowBorders={false}>
-        {labelRow && (
-          <Table.Thead>
-            <Table.Tr>
-              {labelRow.map((labelCell, i) => (
-                <Table.Th key={i}>{utils.format_cell(labelCell)}</Table.Th>
-              ))}
-            </Table.Tr>
-          </Table.Thead>
-        )}
         <Table.Tbody>
           {rows &&
-            rows.slice(+props.labels).map((row, i) => (
+            rows.slice(1).map((row, i) => (
               <Table.Tr key={i} py={"lg"}>
                 <Table.Td>{utils.format_cell(row[0])}</Table.Td>
                 <Table.Td>
+                  {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
                   <BeasonOutput
-                    value={customFormat(row[1])}
+                    value={timeFormat(parseInt(utils.format_cell(row[1])))}
                     icon={IconClock}
                     label={utils.format_cell(labelRow[1])}
                   />
+                </Table.Td>
+                <Table.Td>
+                  {/* conditional because base case has no incremental revenue */}
+                  {row[3]?.v && (
+                    <BeasonOutput
+                      value={utils.format_cell(row[3])}
+                      icon={IconPremiumRights}
+                      label={utils.format_cell(labelRow[3])}
+                    />
+                  )}
                 </Table.Td>
               </Table.Tr>
             ))}
