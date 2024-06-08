@@ -21,6 +21,8 @@ interface ISubGroup {
 
 type TSubGroup = Map<string, TSubGroup | CellObject>;
 
+const ROW_KEY = "Fulfillment Approach";
+
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   const [groups, setGroups] = React.useState<any>({});
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
@@ -35,12 +37,15 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
     if (!props.workbook) return;
 
     const output: TSubGroup = new Map();
-    const xlData: any[] = utils.sheet_to_json(
-      props.workbook?.Sheets[SHEET_NAME],
-      {
+    const xlData: any[] = utils
+      .sheet_to_json(props.workbook?.Sheets[SHEET_NAME], {
         range: props.cellRange,
-      }
-    );
+      })
+      .sort((a, b) =>
+        [a, b]
+          .map((r: any) => r[ROW_KEY].split(" - ").length)
+          .reduce((p, q) => p - q)
+      );
 
     const columnKeys: string[] = Object.keys(xlData[1]);
     const rowKey = columnKeys[0];
