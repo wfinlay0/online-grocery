@@ -20,6 +20,7 @@ interface ISubGroup {
 }
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
+  const [groups, setGroups] = React.useState<any>({});
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
   const rows = getCellRangeValues(
     props.workbook?.Sheets[SHEET_NAME],
@@ -27,6 +28,39 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   );
 
   const labelRow: CellObject[] | boolean = rows[0];
+
+  React.useEffect(() => {
+    if (!props.workbook) return;
+
+    const output: any = {};
+    const xlData: any[] = utils.sheet_to_json(
+      props.workbook?.Sheets[SHEET_NAME],
+      {
+        range: props.cellRange,
+      }
+    );
+
+    const columnKeys: string[] = Object.keys(xlData[1]);
+    const rowKey = columnKeys[0];
+
+    for (const row of xlData) {
+      const groupNames: string[] = row[rowKey]
+        .split(" - ")
+        .map((v: string) => v.trim());
+      let currentLevel = output;
+      groupNames.forEach((groupName, idx) => {
+        if (idx == groupNames.length - 1) {
+          currentLevel[groupName] = row;
+          return;
+        }
+        currentLevel[groupName] = currentLevel[groupName] ?? {};
+        currentLevel = currentLevel[groupName];
+      });
+    }
+
+    console.log(output);
+    setGroups(output);
+  }, [props.workbook, props.cellRange]);
 
   return (
     <Paper pos="relative" withBorder p={"lg"}>
