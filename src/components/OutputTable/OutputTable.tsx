@@ -19,6 +19,8 @@ interface ISubGroup {
   data: CellObject[];
 }
 
+type TSubGroup = Map<string, TSubGroup | CellObject>;
+
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   const [groups, setGroups] = React.useState<any>({});
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
@@ -32,7 +34,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   React.useEffect(() => {
     if (!props.workbook) return;
 
-    const output: any = {};
+    const output: TSubGroup = new Map();
     const xlData: any[] = utils.sheet_to_json(
       props.workbook?.Sheets[SHEET_NAME],
       {
@@ -50,11 +52,15 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
       let currentLevel = output;
       groupNames.forEach((groupName, idx) => {
         if (idx == groupNames.length - 1) {
-          currentLevel[groupName] = row;
-          return;
+          currentLevel.set(groupName, row);
         }
-        currentLevel[groupName] = currentLevel[groupName] ?? {};
-        currentLevel = currentLevel[groupName];
+
+        if (!currentLevel.has(groupName)) {
+          currentLevel.set(groupName, new Map());
+        }
+
+        // @ts-ignore
+        currentLevel = currentLevel.get(groupName);
       });
     }
 
