@@ -10,30 +10,22 @@
     padding-top: rem(80px);
     padding-bottom: rem(50px);
   }
-}
 
-.inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-.title {
-  font-weight: 500;
-  font-size: 68px;
-  color: white;
+    .title {
+      font-weight: 500;
+      font-size: 68px;
+      color: white;
 
-  @media (max-width: 600px) {
-    font-size: 42px;
-  }
-}
-
-.description {
-  text-align: center;
-
-  @media (max-width: 400px) {
-    text-align: left;
+      @media (max-width: 600px) {
+        font-size: 42px;
+      }
+    }
   }
 }

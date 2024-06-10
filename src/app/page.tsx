@@ -7,12 +7,13 @@ import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import { InputRow } from "@/types/xlsx-types";
 import styles from "./page.module.css";
-import { Text, Flex, Title, Box } from "@mantine/core";
+import { Text, Flex, Title, Box, Image } from "@mantine/core";
 import { readCustom } from "@/utils/xlsx-utils";
 import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
+const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -53,17 +54,20 @@ export default function Home() {
 
   // [ ] extract all cell references to a config file
   return (
-    <Box maw={1200} mx={"auto"}>
-      <Box maw={500}>
-        <Title order={4}>What is this?</Title>
-        <Text>
-          This is a grocery store picking simulation where you can create
-          scenarios to inform your decisions on whether or not to provide
-          full-service grocery store picking using a research model created by
-          Wharton University.
-        </Text>
-      </Box>
-      <Flex className={styles.ioContainer} gap={"xl"}>
+    <Box maw={1200} mx={"auto"} mt={"xl"}>
+      <Flex>
+        <Box maw={500}>
+          <Title order={4}>What is this?</Title>
+          <Text>
+            This is a grocery store picking simulation where you can create
+            scenarios to inform your decisions on whether or not to provide
+            full-service grocery store picking using a research model created by
+            Wharton University.
+          </Text>
+        </Box>
+        <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} />
+      </Flex>
+      <Flex className={styles.ioContainer} gap={"xl"} mt={"xl"}>
         <div>
           <InputGroup
             workbook={workbook!}

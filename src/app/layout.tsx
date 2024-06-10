@@ -6,19 +6,14 @@ import {
   ColorSchemeScript,
   MantineProvider,
   AppShell,
-  AppShellHeader,
   AppShellFooter,
   AppShellMain,
-  Group,
   Flex,
   Image,
   Text,
-  Box,
   Title,
-  BackgroundImage,
   Overlay,
-  Container,
-  Button,
+  Space,
 } from "@mantine/core";
 // import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +28,6 @@ export const metadata = {
 const WM_LOGO_BLACK_URL =
   nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
 const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
-const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
 const BANNER_IMG_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
