@@ -50,7 +50,7 @@ export default function RootLayout({
             <AppShellMain>
               <div className={styles.wrapper}>
                 <Overlay
-                  gradient="linear-gradient(180deg, #3576be 9%, #326fb9 18%, #2c4d9a 43%, #0a2136 87%)"
+                  gradient="linear-gradient(180deg, #1e426a 9%, #244f84 18%, #2c4d9a 43%, #0a2136 150%)"
                   opacity={0.85}
                   zIndex={1}
                 />
