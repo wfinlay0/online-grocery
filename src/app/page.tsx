@@ -65,7 +65,7 @@ export default function Home() {
             Wharton University.
           </Text>
         </Box>
-        <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} />
+        <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} mt={5} />
       </Flex>
       <Flex className={styles.ioContainer} gap={"xl"} mt={"xl"}>
         <div>
