@@ -6,25 +6,29 @@ import {
   ColorSchemeScript,
   MantineProvider,
   AppShell,
-  AppShellHeader,
   AppShellFooter,
   AppShellMain,
-  Group,
   Flex,
   Image,
   Text,
+  Title,
+  Overlay,
+  Space,
 } from "@mantine/core";
 // import Image from "next/image";
 import Link from "next/link";
 import nextConfig from "../../next.config.mjs";
+import styles from "./layout.module.css";
 
 export const metadata = {
   title: "online-grocery",
   description: "testing",
 };
 
-const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
-const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
+const WM_LOGO_BLACK_URL =
+  nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
+const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
+const BANNER_IMG_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
   children,
@@ -36,22 +40,23 @@ export default function RootLayout({
       <body>
         <ColorSchemeScript />
         <MantineProvider>
-          <AppShell
-            header={{ height: 60 }}
-            footer={{ height: 60 }}
-            padding="md"
-          >
-            <AppShellHeader>
-              <Group h="100%" px="md">
-                <Image
-                  src={WHARTON_LOGO_URL} // Route of the image file
-                  height={44} // Desired size with correct aspect ratio
-                  width={173} // Desired size with correct aspect ratio
-                  alt="Wharton University Logo"
+          <AppShell footer={{ height: 60 }}>
+            <AppShellMain>
+              <div className={styles.wrapper}>
+                <Overlay
+                  gradient="linear-gradient(180deg, #1e426a 9%, #244f84 18%, #2c4d9a 43%, #0a2136 150%)"
+                  opacity={0.85}
+                  zIndex={1}
                 />
-              </Group>
-            </AppShellHeader>
-            <AppShellMain>{children}</AppShellMain>
+                <div className={styles.inner}>
+                  <Image src={WM_LOGO_URL} alt="WM Logo" maw={237} />
+                  <Title className={styles.title}>
+                    Grocery Store Picker Simulator
+                  </Title>
+                </div>
+              </div>
+              {children}
+            </AppShellMain>
             <AppShellFooter style={{ position: "static" }}>
               <Flex
                 justify={"space-between"}
@@ -61,7 +66,7 @@ export default function RootLayout({
               >
                 <Link href={"https://www.westmonroe.com/"}>
                   <Image
-                    src={WM_LOGO_URL}
+                    src={WM_LOGO_BLACK_URL}
                     alt="West Monroe Partners Logo"
                     width={143}
                     height={25}
