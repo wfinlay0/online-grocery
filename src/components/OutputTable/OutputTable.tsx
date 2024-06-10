@@ -1,4 +1,8 @@
-import { getCellRangeValues, timeFormat } from "@/utils/xlsx-utils";
+import {
+  customFormat,
+  getCellRangeValues,
+  timeFormat,
+} from "@/utils/xlsx-utils";
 import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
@@ -92,7 +96,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
                 <Table.Td>
                   {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
                   <BeasonOutput
-                    value={timeFormat(parseInt(utils.format_cell(row[1])))}
+                    value={timeFormat(customFormat(row[1]))}
                     icon={IconClock}
                     label={utils.format_cell(labelRow[1])}
                   />
