@@ -54,13 +54,13 @@ export const customFormat = (cell: CellObject): number => {
 };
 
 export const timeFormat = (min: number): string => {
-  let res = '';
+  let res = "";
 
   const hours = Math.floor(min / 60);
   if (hours) res = `${hours}h`;
 
-  const rem = min % 60;
+  const rem = Math.round(min % 60);
   if (rem) res += `${rem}m`;
 
   return res;
-}
+};
