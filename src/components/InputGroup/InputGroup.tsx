@@ -72,7 +72,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
               <Table.Tr key={idx}>
                 <Table.Td>
                   <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
-                    <Flex align={"center"} miw={320} py={"xs"}>
+                    <Flex align={"center"} miw={300} py={"xs"}>
                       {row[0]}&nbsp;
                       <Flex align={"center"}>
                         <IconHelp size={17} color="lightgray" />
