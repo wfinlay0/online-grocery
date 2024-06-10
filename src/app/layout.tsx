@@ -27,7 +27,7 @@ export const metadata = {
 
 const WM_LOGO_BLACK_URL =
   nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
-const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
+const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_WhiteYellow.png";
 const BANNER_IMG_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
