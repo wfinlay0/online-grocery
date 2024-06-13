@@ -10,6 +10,7 @@ import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput/BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/constants";
+import RecursiveSubGroup from "./RecursiveSubGroup";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -18,17 +19,12 @@ interface IOutputTableProps {
   loading: boolean;
 }
 
-interface ISubGroup {
-  name: string;
-  data: CellObject[];
-}
-
-type TSubGroup = Map<string, TSubGroup | CellObject>;
+export type TSubGroup = Map<string, TSubGroup | CellObject>;
 
 const ROW_KEY = "Fulfillment Approach";
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-  const [groups, setGroups] = React.useState<any>({});
+  const [groups, setGroups] = React.useState<TSubGroup>(new Map());
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
   const rows = getCellRangeValues(
     props.workbook?.Sheets[SHEET_NAME],
@@ -87,34 +83,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         visible={props.loading}
         loaderProps={{ children: <CustomSpinner /> }}
       />
-      <Table withRowBorders={false}>
-        <Table.Tbody>
-          {rows &&
-            rows.slice(1).map((row, i) => (
-              <Table.Tr key={i} py={"lg"}>
-                <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-                <Table.Td>
-                  {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
-                  <BeasonOutput
-                    value={timeFormat(customFormat(row[1]))}
-                    icon={IconClock}
-                    label={utils.format_cell(labelRow[1])}
-                  />
-                </Table.Td>
-                <Table.Td>
-                  {/* conditional because base case has no incremental revenue */}
-                  {row[3]?.v && (
-                    <BeasonOutput
-                      value={utils.format_cell(row[3])}
-                      icon={IconPremiumRights}
-                      label={utils.format_cell(labelRow[3])}
-                    />
-                  )}
-                </Table.Td>
-              </Table.Tr>
-            ))}
-        </Table.Tbody>
-      </Table>
+      <RecursiveSubGroup data={groups} />
     </Paper>
   );
 };
