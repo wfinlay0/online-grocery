@@ -3,7 +3,15 @@ import {
   getCellRangeValues,
   timeFormat,
 } from "@/utils/xlsx-utils";
-import { LoadingOverlay, Paper, Table, Text, Title } from "@mantine/core";
+import {
+  LoadingOverlay,
+  Paper,
+  Table,
+  Text,
+  Title,
+  Tree,
+  TreeNodeData,
+} from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
@@ -24,19 +32,17 @@ export type TSubGroup = Map<string, TSubGroup | CellObject>;
 const ROW_KEY = "Fulfillment Approach";
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
-  const [groups, setGroups] = React.useState<TSubGroup>(new Map());
+  const [groups, setGroups] = React.useState<TreeNodeData[]>([]);
   /* TODO: might be able to use utils.sheet_to_json here instead of custom */
   const rows = getCellRangeValues(
     props.workbook?.Sheets[SHEET_NAME],
     props.cellRange
   );
 
-  const labelRow: CellObject[] | boolean = rows[0];
-
   React.useEffect(() => {
     if (!props.workbook) return;
 
-    const output: TSubGroup = new Map();
+    const output: TreeNodeData[] = [];
     const xlData: any[] = utils
       .sheet_to_json(props.workbook?.Sheets[SHEET_NAME], {
         range: props.cellRange,
@@ -46,26 +52,44 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
           .map((r: any) => r[ROW_KEY].split(" - ").length)
           .reduce((p, q) => p - q)
       );
+    console.log(xlData);
 
     const columnKeys: string[] = Object.keys(xlData[1]);
     const rowKey = columnKeys[0];
 
+    // for each row in the output
     for (const row of xlData) {
+      // get a list of groups the row belongs to
       const groupNames: string[] = row[rowKey]
         .split(" - ")
         .map((v: string) => v.trim());
       let currentLevel = output;
+
+      // for each group the row belongs to
       groupNames.forEach((groupName, idx) => {
-        if (idx == groupNames.length - 1) {
-          currentLevel.set(groupName, row);
+        const nodePath = groupNames.slice(0, idx + 1).join(" - ");
+
+        const newNode: TreeNodeData = {
+          label: groupName,
+          value: nodePath,
+        };
+
+        // if the node doesn't exist in the tree yet, add it
+        if (!currentLevel.find((node) => node.value === nodePath)) {
+          // if it's a leaf, add the row data
+          if (idx === groupNames.length - 1) {
+            // TODO: add the row data (as nodeProps?)
+          } else {
+            newNode.children = [];
+          }
+          currentLevel.push(newNode);
         }
 
-        if (!currentLevel.has(groupName)) {
-          currentLevel.set(groupName, new Map());
-        }
-
+        // continue on at the level down
         // @ts-ignore
-        currentLevel = currentLevel.get(groupName);
+        currentLevel = currentLevel.find(
+          (node) => node.value === nodePath
+        )?.children;
       });
     }
 
@@ -84,34 +108,6 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         loaderProps={{ children: <CustomSpinner /> }}
       />
       <OutputGroups data={groups} />
-      <Table withRowBorders={false}>
-        <Table.Tbody>
-          {rows &&
-            rows.slice(1).map((row, i) => (
-              <Table.Tr key={i} py={"lg"}>
-                <Table.Td>{utils.format_cell(row[0])}</Table.Td>
-                <Table.Td>
-                  {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
-                  <BeasonOutput
-                    value={timeFormat(customFormat(row[1]))}
-                    icon={IconClock}
-                    label={utils.format_cell(labelRow[1])}
-                  />
-                </Table.Td>
-                <Table.Td>
-                  {/* conditional because base case has no incremental revenue */}
-                  {row[3]?.v && (
-                    <BeasonOutput
-                      value={`${customFormat(row[3]) * 100}%`}
-                      icon={IconPremiumRights}
-                      label={utils.format_cell(labelRow[3])}
-                    />
-                  )}
-                </Table.Td>
-              </Table.Tr>
-            ))}
-        </Table.Tbody>
-      </Table>
     </Paper>
   );
 };
