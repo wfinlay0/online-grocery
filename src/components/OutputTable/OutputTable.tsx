@@ -10,7 +10,7 @@ import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput/BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/constants";
-import OutputGRoups from "./OutputGroups";
+import OutputGroups from "./OutputGroups";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -83,7 +83,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         visible={props.loading}
         loaderProps={{ children: <CustomSpinner /> }}
       />
-      <OutputGRoups data={groups} />
+      <OutputGroups data={groups} />
       <Table withRowBorders={false}>
         <Table.Tbody>
           {rows &&

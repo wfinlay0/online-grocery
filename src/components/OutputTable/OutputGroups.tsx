@@ -5,8 +5,8 @@ export interface IOutputGroupsProps {
   data: TSubGroup;
 }
 
-const OutputGRoups = (props: IOutputGroupsProps) => {
+const OutputGroups = (props: IOutputGroupsProps) => {
   return <Box>output groups</Box>;
 };
 
-export default OutputGRoups;
+export default OutputGroups;
