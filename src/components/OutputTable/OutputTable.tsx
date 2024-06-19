@@ -105,7 +105,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
                   {/* conditional because base case has no incremental revenue */}
                   {row[3]?.v && (
                     <BeasonOutput
-                      value={utils.format_cell(row[3])}
+                      value={`${customFormat(row[3]) * 100}%`}
                       icon={IconPremiumRights}
                       label={utils.format_cell(labelRow[3])}
                     />

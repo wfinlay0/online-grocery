@@ -54,7 +54,7 @@ export default function Home() {
 
   // [ ] extract all cell references to a config file
   return (
-    <Box maw={1200} mx={"auto"} mt={"xl"}>
+    <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
       <Flex>
         <Box maw={500}>
           <Title order={4}>What is this?</Title>
