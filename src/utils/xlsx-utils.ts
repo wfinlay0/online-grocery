@@ -48,6 +48,11 @@ export const getCellRangeValues = (
   return [[]];
 };
 
+/**
+ * Round cell output down to 2 digits
+ * @param cell
+ * @returns
+ */
 export const customFormat = (cell: CellObject): number => {
   if (!cell.v || typeof cell.v !== "number") return NaN;
   return Math.floor(cell.v * 100) / 100;

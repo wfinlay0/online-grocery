@@ -10,7 +10,7 @@ import CustomSpinner from "./CustomSpinner";
 import BeasonOutput from "./BeasonOutput/BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/constants";
-import RecursiveSubGroup from "./RecursiveSubGroup";
+import OutputGRoups from "./OutputGroups";
 
 interface IOutputTableProps {
   workbook: WorkBook;
@@ -83,7 +83,35 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         visible={props.loading}
         loaderProps={{ children: <CustomSpinner /> }}
       />
-      <RecursiveSubGroup data={groups} />
+      <OutputGRoups data={groups} />
+      <Table withRowBorders={false}>
+        <Table.Tbody>
+          {rows &&
+            rows.slice(1).map((row, i) => (
+              <Table.Tr key={i} py={"lg"}>
+                <Table.Td>{utils.format_cell(row[0])}</Table.Td>
+                <Table.Td>
+                  {/* TODO: can't use format_cell because it uses the same .w property which is unchanged by recalc */}
+                  <BeasonOutput
+                    value={timeFormat(customFormat(row[1]))}
+                    icon={IconClock}
+                    label={utils.format_cell(labelRow[1])}
+                  />
+                </Table.Td>
+                <Table.Td>
+                  {/* conditional because base case has no incremental revenue */}
+                  {row[3]?.v && (
+                    <BeasonOutput
+                      value={`${customFormat(row[3]) * 100}%`}
+                      icon={IconPremiumRights}
+                      label={utils.format_cell(labelRow[3])}
+                    />
+                  )}
+                </Table.Td>
+              </Table.Tr>
+            ))}
+        </Table.Tbody>
+      </Table>
     </Paper>
   );
 };
