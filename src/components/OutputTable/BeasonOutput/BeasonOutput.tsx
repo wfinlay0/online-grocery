@@ -13,7 +13,11 @@ interface IBeasonOutputProps {
 
 const BeasonOutput: React.FunctionComponent<IBeasonOutputProps> = (props) => {
   return props.block ? (
-    <Paper p={"md"} className={styles.BeasonOutput}>
+    <Paper
+      p={"md"}
+      className={styles.BeasonOutput}
+      styles={{ root: { boxShadow: "0px 2px 8px 1px rgba(0, 0, 0, 0.1)" } }}
+    >
       <Flex direction="column" gap={8}>
         <props.icon />
         <Text c="gray">{props?.label}</Text>
@@ -22,7 +26,9 @@ const BeasonOutput: React.FunctionComponent<IBeasonOutputProps> = (props) => {
     </Paper>
   ) : (
     <Box className={styles.BeasonOutput}>
-      <Text fz={12} c="gray">{props?.label}</Text>
+      <Text fz={12} c="gray">
+        {props?.label}
+      </Text>
       <Flex gap={5}>
         <props.icon />
         <Text className={styles.valueContainer}>{props.value}</Text>

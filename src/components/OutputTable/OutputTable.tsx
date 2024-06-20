@@ -77,6 +77,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
           // if it's a leaf, add the row data, else it's anoter subgroup
           if (idx === groupNames.length - 1) {
             newNode.nodeProps = row;
+            delete newNode.nodeProps?.[rowKey];
           } else {
             newNode.children = [];
           }
