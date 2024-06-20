@@ -54,7 +54,6 @@ export default function Home() {
     }
   };
 
-  // [ ] extract all cell references to a config file
   return (
     <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
       <Flex wrap={"wrap"}>

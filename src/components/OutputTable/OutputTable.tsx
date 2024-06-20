@@ -1,15 +1,8 @@
 import {
-  customFormat,
-  getCellRangeValues,
-  timeFormat,
-} from "@/utils/xlsx-utils";
-import {
   LoadingOverlay,
   Paper,
-  Table,
   Text,
   Title,
-  Tree,
   TreeNodeData,
 } from "@mantine/core";
 import * as React from "react";
@@ -55,7 +48,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
       const groupNames: string[] = row[rowKey]
         .split(" - ")
         .map((v: string) => v.trim());
-      let currentLevel = output;
+      let currentLevel: TreeNodeData[] | undefined = output;
 
       // for each group the row belongs to
       groupNames.forEach((groupName, idx) => {
@@ -67,7 +60,7 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         };
 
         // if the node doesn't exist in the tree yet, add it
-        if (!currentLevel.find((node) => node.value === nodePath)) {
+        if (!currentLevel?.find((node) => node.value === nodePath)) {
           // if it's a leaf, add the row data, else it's anoter subgroup
           if (idx === groupNames.length - 1) {
             newNode.nodeProps = row;
@@ -75,12 +68,11 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
           } else {
             newNode.children = [];
           }
-          currentLevel.push(newNode);
+          currentLevel?.push(newNode);
         }
 
         // continue on at the level down
-        // @ts-ignore
-        currentLevel = currentLevel.find(
+        currentLevel = currentLevel?.find(
           (node) => node.value === nodePath
         )?.children;
       });

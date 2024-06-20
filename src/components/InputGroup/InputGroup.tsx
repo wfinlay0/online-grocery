@@ -2,7 +2,6 @@ import { getCellRangeValues } from "@/utils/xlsx-utils";
 import { Box, Button, Flex, Table, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
-import BeasonInput from "./BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
 import styles from "./InputGroup.module.css";
 import CellInput from "./CellInput";
