@@ -1,11 +1,10 @@
 "use client";
 
-import InputGroup from "@/components/InputGroup/InputGroup";
+import InputGroup, { InputRow } from "@/components/InputGroup/InputGroup";
 import * as React from "react";
 import { WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
-import { InputRow } from "@/types/xlsx-types";
 import styles from "./page.module.css";
 import { Text, Flex, Title, Box, Image } from "@mantine/core";
 import { readCustom } from "@/utils/xlsx-utils";
@@ -43,7 +42,11 @@ export default function Home() {
       };
 
       const tmp = structuredClone(workbook);
-      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data, { origin });
+      console.log(tmp);
+
+      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data.map(Object.values), {
+        origin,
+      });
 
       // start the worker
       recalcWorker.postMessage(tmp);

@@ -31,11 +31,6 @@ const ROW_KEY = "Fulfillment Approach";
 
 const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   const [groups, setGroups] = React.useState<TreeNodeData[]>([]);
-  /* TODO: might be able to use utils.sheet_to_json here instead of custom */
-  const rows = getCellRangeValues(
-    props.workbook?.Sheets[SHEET_NAME],
-    props.cellRange
-  );
 
   React.useEffect(() => {
     if (!props.workbook) return;

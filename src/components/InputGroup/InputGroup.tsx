@@ -1,4 +1,3 @@
-import { InputRow } from "@/types/xlsx-types";
 import { getCellRangeValues } from "@/utils/xlsx-utils";
 import { Box, Button, Flex, Table, Title } from "@mantine/core";
 import * as React from "react";
@@ -31,6 +30,16 @@ interface IInputGroupProps {
   loading: boolean;
 }
 
+export enum RowHeaders {
+  LABEL = "label",
+  VALUE = "value",
+}
+
+export type InputRow = {
+  label: string;
+  value: number;
+};
+
 /**
  * renders number inputs with labels specified by a two column cell range in a sheet, also responsible for updating the
  * sheet/book and recalculating
@@ -42,21 +51,18 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   // [ ] mantine use form
 
   React.useEffect(() => {
-    const cellArray = getCellRangeValues(
-      props.workbook?.Sheets[props.sheet],
-      props.cellRange
-    );
-    const inputRows: InputRow[] = cellArray?.map((row) => [
-      utils.format_cell(row[0]),
-      parseInt(utils.format_cell(row[1])),
-    ]);
-    setData(inputRows);
+    const rows = utils.sheet_to_json(props.workbook?.Sheets[props.sheet], {
+      range: props.cellRange,
+      raw: true,
+      header: Object.values(RowHeaders),
+    }) as InputRow[];
+    setData(rows);
   }, [props.cellRange, props.sheet, props.workbook]);
 
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
       const tmp = old!.slice();
-      tmp[rowIndex][1] = Number(newValue);
+      tmp[rowIndex].value = Number(newValue);
       return tmp;
     });
   };
@@ -73,13 +79,13 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                 <Table.Td>
                   <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
                     <Flex align={"center"} miw={300} py={"xs"}>
-                      {row[0]}&nbsp;
+                      {row.label}&nbsp;
                       <Flex align={"center"}>
                         <IconHelp size={17} color="lightgray" />
                       </Flex>
                     </Flex>
                     <BeasonInput
-                      value={row[1]}
+                      value={row.value}
                       allowDecimal={false}
                       allowNegative={false}
                       onChange={(value) => onInputChange(value, idx)}
