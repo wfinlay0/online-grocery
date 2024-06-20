@@ -50,7 +50,7 @@ export default function RootLayout({
                 />
                 <div className={styles.inner}>
                   <Image src={WM_LOGO_URL} alt="WM Logo" maw={237} />
-                  <Title className={styles.title}>
+                  <Title className={styles.title} ta={"center"}>
                     Grocery Store Picker Simulator
                   </Title>
                 </div>

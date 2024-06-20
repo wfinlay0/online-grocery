@@ -27,7 +27,7 @@ const Leaf = ({ node, elementProps, level }: RenderTreeNodePayload) => {
       justify={"space-between"}
       direction={level === 1 ? "column" : "row"}
     >
-      <Title order={(level + 3) as TitleOrder} my={"sm"}>
+      <Title order={(level + 3) as TitleOrder} my={"md"}>
         {node.label}
       </Title>
       {!!nodeData.length && (
@@ -40,7 +40,7 @@ const Leaf = ({ node, elementProps, level }: RenderTreeNodePayload) => {
           />
           {nodeData.length === 2 && (
             <BeasonOutput
-              value={`${customFormat(nodeData[1][1]) * 100}%`}
+              value={`${Math.round(customFormat(nodeData[1][1]) * 100)}%`}
               icon={IconPremiumRights}
               block={level === 1}
               label={nodeData[1][0]}

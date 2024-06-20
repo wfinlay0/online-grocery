@@ -57,10 +57,10 @@ export default function Home() {
   // [ ] extract all cell references to a config file
   return (
     <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
-      <Flex>
+      <Flex wrap={"wrap"}>
         <Box maw={500}>
           <Title order={4}>What is this?</Title>
-          <Text>
+          <Text mb={10}>
             This is a grocery store picking simulation where you can create
             scenarios to inform your decisions on whether or not to provide
             full-service grocery store picking using a research model created by
