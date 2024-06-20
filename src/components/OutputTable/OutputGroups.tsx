@@ -13,6 +13,7 @@ import {
 import BeasonOutput from "./BeasonOutput/BeasonOutput";
 import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { customFormat, timeFormat } from "@/utils/xlsx-utils";
+import { useMediaQuery } from "@mantine/hooks";
 
 export interface IOutputGroupsProps {
   data: TreeNodeData[];
@@ -27,7 +28,7 @@ const Leaf = ({ node, elementProps, level }: RenderTreeNodePayload) => {
       justify={"space-between"}
       direction={level === 1 ? "column" : "row"}
     >
-      <Title order={(level + 3) as TitleOrder} my={"md"}>
+      <Title order={(level + 3) as TitleOrder} my={"md"} mr={"5px"}>
         {node.label}
       </Title>
       {!!nodeData.length && (
@@ -54,6 +55,7 @@ const Leaf = ({ node, elementProps, level }: RenderTreeNodePayload) => {
 
 const OutputGroups = (props: IOutputGroupsProps) => {
   const tree = useTree({ initialExpandedState: {} });
+  const matches = useMediaQuery("(max-width: 600px)");
 
   React.useEffect(() => {
     tree.expandAllNodes();
@@ -64,6 +66,7 @@ const OutputGroups = (props: IOutputGroupsProps) => {
       data={props.data}
       tree={tree}
       renderNode={(payload) => <Leaf {...payload} />}
+      levelOffset={matches ? "5px" : "lg"}
     />
   );
 };
