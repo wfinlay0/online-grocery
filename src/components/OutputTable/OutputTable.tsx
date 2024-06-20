@@ -45,7 +45,6 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
           .map((r: any) => r[ROW_KEY].split(" - ").length)
           .reduce((p, q) => p - q)
       );
-    console.log(xlData);
 
     const columnKeys: string[] = Object.keys(xlData[1]);
     const rowKey = columnKeys[0];
@@ -87,7 +86,6 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
       });
     }
 
-    console.log(output);
     setGroups(output);
   }, [props.workbook, props.cellRange]);
 

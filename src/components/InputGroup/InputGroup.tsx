@@ -1,7 +1,7 @@
 import { getCellRangeValues } from "@/utils/xlsx-utils";
 import { Box, Button, Flex, Table, Title } from "@mantine/core";
 import * as React from "react";
-import { WorkBook, utils } from "xlsx";
+import { CellObject, WorkBook, utils } from "xlsx";
 import BeasonInput from "./BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
 import styles from "./InputGroup.module.css";
@@ -26,13 +26,8 @@ interface IInputGroupProps {
    * @param origin the cell where the content should be reinserted (top left of the range)
    * @returns
    */
-  onSubmit: (content: InputRow[], origin: string) => void;
+  onSubmit: (content: CellObject[][], origin: string) => void;
   loading: boolean;
-}
-
-export enum RowHeaders {
-  LABEL = "label",
-  VALUE = "value",
 }
 
 export type InputRow = {
@@ -47,22 +42,22 @@ export type InputRow = {
  * @returns
  */
 const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
-  const [data, setData] = React.useState<InputRow[]>();
+  const [data, setData] = React.useState<CellObject[][]>();
   // [ ] mantine use form
 
   React.useEffect(() => {
-    const rows = utils.sheet_to_json(props.workbook?.Sheets[props.sheet], {
-      range: props.cellRange,
-      raw: true,
-      header: Object.values(RowHeaders),
-    }) as InputRow[];
-    setData(rows);
+    const inputRows = getCellRangeValues(
+      props.workbook?.Sheets[props.sheet],
+      props.cellRange
+    );
+
+    setData(inputRows);
   }, [props.cellRange, props.sheet, props.workbook]);
 
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
       const tmp = old!.slice();
-      tmp[rowIndex].value = Number(newValue);
+      tmp[rowIndex][1].v = Number(newValue);
       return tmp;
     });
   };
@@ -79,14 +74,13 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                 <Table.Td>
                   <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
                     <Flex align={"center"} miw={300} py={"xs"}>
-                      {row.label}&nbsp;
+                      {utils.format_cell(row[0])}&nbsp;
                       <Flex align={"center"}>
                         <IconHelp size={17} color="lightgray" />
                       </Flex>
                     </Flex>
                     <BeasonInput
-                      value={row.value}
-                      allowDecimal={false}
+                      value={row[1]?.v as number}
                       allowNegative={false}
                       onChange={(value) => onInputChange(value, idx)}
                       key={idx}

@@ -2,7 +2,7 @@
 
 import InputGroup, { InputRow } from "@/components/InputGroup/InputGroup";
 import * as React from "react";
-import { WorkBook, utils } from "xlsx";
+import { CellObject, WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import styles from "./page.module.css";
@@ -27,7 +27,7 @@ export default function Home() {
       .catch(console.error);
   }, []);
 
-  const onInputSubmit = (data: InputRow[], origin: string) => {
+  const onInputSubmit = (data: CellObject[][], origin: string) => {
     setLoading(true);
 
     // xlsx-calc is doing a lot of work and will block the UI, so we must run it in a web worker
@@ -42,9 +42,8 @@ export default function Home() {
       };
 
       const tmp = structuredClone(workbook);
-      console.log(tmp);
 
-      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data.map(Object.values), {
+      utils.sheet_add_aoa(tmp!.Sheets[SHEET_NAME], data, {
         origin,
       });
 
