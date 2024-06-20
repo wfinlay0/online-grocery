@@ -5,6 +5,7 @@ import { CellObject, WorkBook, utils } from "xlsx";
 import BeasonInput from "./BeasonInput";
 import { IconHelp } from "@tabler/icons-react";
 import styles from "./InputGroup.module.css";
+import CellInput from "./CellInput";
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
  * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
@@ -62,7 +63,6 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     });
   };
 
-  // TODO: take number format (e.g. percentage, dollar, etc.) (`.z` cell prop) into account
   return (
     data && (
       <Box className={styles.InputGroup}>
@@ -79,11 +79,9 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                         <IconHelp size={17} color="lightgray" />
                       </Flex>
                     </Flex>
-                    <BeasonInput
-                      value={row[1]?.v as number}
-                      allowNegative={false}
+                    <CellInput
+                      cell={row[1]}
                       onChange={(value) => onInputChange(value, idx)}
-                      key={idx}
                     />
                   </Flex>
                 </Table.Td>
