@@ -15,8 +15,6 @@ import {
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import CustomSpinner from "./CustomSpinner";
-import BeasonOutput from "./BeasonOutput/BeasonOutput";
-import { IconClock, IconPremiumRights } from "@tabler/icons-react";
 import { SHEET_NAME } from "@/constants";
 import OutputGroups from "./OutputGroups";
 
@@ -76,9 +74,9 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
 
         // if the node doesn't exist in the tree yet, add it
         if (!currentLevel.find((node) => node.value === nodePath)) {
-          // if it's a leaf, add the row data
+          // if it's a leaf, add the row data, else it's anoter subgroup
           if (idx === groupNames.length - 1) {
-            // TODO: add the row data (as nodeProps?)
+            newNode.nodeProps = row;
           } else {
             newNode.children = [];
           }
