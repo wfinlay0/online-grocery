@@ -79,7 +79,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                       </Flex>
                     </Flex>
                     <CellInput
-                      cell={row[1]}
+                      row={row}
                       onChange={(value) => onInputChange(value, idx)}
                     />
                   </Flex>
