@@ -8,7 +8,6 @@ import {
 } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
-import CustomSpinner from "./CustomSpinner";
 import { SHEET_NAME } from "@/constants";
 import OutputGroups from "./OutputGroups";
 
