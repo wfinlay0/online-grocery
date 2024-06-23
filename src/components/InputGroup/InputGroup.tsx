@@ -1,10 +1,11 @@
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Box, Button, Flex, Table, Title } from "@mantine/core";
+import { Box, Button, Flex, Image, Table, Text, Title } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import { IconHelp } from "@tabler/icons-react";
 import styles from "./InputGroup.module.css";
 import CellInput from "./CellInput";
+import nextConfig from "../../../next.config.mjs";
 
 /* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
  * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
@@ -34,6 +35,9 @@ export type InputRow = {
   label: string;
   value: number;
 };
+
+const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
+const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
 
 /**
  * renders number inputs with labels specified by a two column cell range in a sheet, also responsible for updating the
@@ -65,6 +69,19 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   return (
     data && (
       <Box className={styles.InputGroup}>
+        <Box maw={500}>
+          <Flex wrap={"wrap"} gap={30} mb={"xl"}>
+            <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} />
+            <Image alt="West Monroe logo" src={WM_LOGO_URL} h={45} />
+          </Flex>
+          <Title order={4}>What is this?</Title>
+          <Text mb={20}>
+            This is a grocery store picking simulation where you can create
+            scenarios to inform your decisions on whether or not to provide
+            full-service grocery store picking using a research model created by
+            Wharton University.
+          </Text>
+        </Box>
         <Title order={2}>Make Your Selections</Title>
         <Table>
           <Table.Tbody>

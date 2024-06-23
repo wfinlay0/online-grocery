@@ -12,8 +12,6 @@ import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
-const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
-const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -57,22 +55,7 @@ export default function Home() {
 
   return (
     <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
-      <Flex wrap={"wrap"}>
-        <Box maw={500}>
-          <Title order={4}>What is this?</Title>
-          <Text mb={10}>
-            This is a grocery store picking simulation where you can create
-            scenarios to inform your decisions on whether or not to provide
-            full-service grocery store picking using a research model created by
-            Wharton University.
-          </Text>
-        </Box>
-        <Flex wrap={"wrap"} gap={30}>
-          <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} mt={5} />
-          <Image alt="West Monroe logo" src={WM_LOGO_URL} h={45} mt={5} />
-        </Flex>
-      </Flex>
-      <Flex className={styles.ioContainer} gap={"xl"} mt={"xl"}>
+      <Flex className={styles.ioContainer} gap={"xl"}>
         <div>
           <InputGroup
             workbook={workbook!}
