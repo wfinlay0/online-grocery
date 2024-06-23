@@ -27,7 +27,6 @@ export const metadata = {
 
 const WM_LOGO_BLACK_URL =
   nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
-const BANNER_IMG_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
   children,
@@ -61,16 +60,18 @@ export default function RootLayout({
                 align={"center"}
                 h={"100%"}
                 p={20}
+                gap={10}
               >
                 <Link href={"https://www.westmonroe.com/"}>
                   <Image
                     src={WM_LOGO_BLACK_URL}
                     alt="West Monroe Partners Logo"
-                    width={143}
-                    height={25}
+                    maw={143}
                   />
                 </Link>
-                <Text>&copy; 2024 West Monroe. All Rights Reserved</Text>
+                <Text size="xs">
+                  &copy; 2024 West Monroe. All Rights Reserved
+                </Text>
               </Flex>
             </AppShellFooter>
           </AppShell>
