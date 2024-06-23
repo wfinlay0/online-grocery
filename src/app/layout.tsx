@@ -27,7 +27,6 @@ export const metadata = {
 
 const WM_LOGO_BLACK_URL =
   nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
-const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_WhiteYellow.png";
 const BANNER_IMG_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
@@ -49,7 +48,6 @@ export default function RootLayout({
                   zIndex={1}
                 />
                 <div className={styles.inner}>
-                  <Image src={WM_LOGO_URL} alt="WM Logo" maw={237} />
                   <Title className={styles.title} ta={"center"}>
                     Grocery Store Picker Simulator
                   </Title>

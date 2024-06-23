@@ -13,6 +13,7 @@ import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 // install a webpack loader for this?
 const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
 const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
+const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
 
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
@@ -66,7 +67,10 @@ export default function Home() {
             Wharton University.
           </Text>
         </Box>
-        <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} mt={5} />
+        <Flex wrap={"wrap"} gap={30}>
+          <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} mt={5} />
+          <Image alt="West Monroe logo" src={WM_LOGO_URL} h={45} mt={5} />
+        </Flex>
       </Flex>
       <Flex className={styles.ioContainer} gap={"xl"} mt={"xl"}>
         <div>
