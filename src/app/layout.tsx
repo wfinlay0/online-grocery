@@ -13,7 +13,6 @@ import {
   Text,
   Title,
   Overlay,
-  Space,
 } from "@mantine/core";
 // import Image from "next/image";
 import Link from "next/link";
@@ -55,13 +54,7 @@ export default function RootLayout({
               {children}
             </AppShellMain>
             <AppShellFooter style={{ position: "static" }}>
-              <Flex
-                justify={"space-between"}
-                align={"center"}
-                h={"100%"}
-                p={20}
-                gap={10}
-              >
+              <div className={styles.footer}>
                 <Link href={"https://www.westmonroe.com/"}>
                   <Image
                     src={WM_LOGO_BLACK_URL}
@@ -72,7 +65,7 @@ export default function RootLayout({
                 <Text size="xs">
                   &copy; 2024 West Monroe. All Rights Reserved
                 </Text>
-              </Flex>
+              </div>
             </AppShellFooter>
           </AppShell>
         </MantineProvider>
