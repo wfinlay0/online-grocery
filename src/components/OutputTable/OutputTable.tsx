@@ -89,7 +89,8 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
       <Title order={2}>Fulfillment Time & Revenue</Title>
       <LoadingOverlay
         visible={props.loading}
-        loaderProps={{ children: <CustomSpinner /> }}
+        overlayProps={{ blur: 2 }}
+        loaderProps={{ color: "gray.4" }}
       />
       <OutputGroups data={groups} />
     </Paper>
