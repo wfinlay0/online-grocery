@@ -1,12 +1,12 @@
 "use client";
 
-import InputGroup, { InputRow } from "@/components/InputGroup/InputGroup";
+import InputGroup from "@/components/InputGroup/InputGroup";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import styles from "./page.module.css";
-import { Text, Flex, Title, Box, Image } from "@mantine/core";
+import { Text, Flex, Box } from "@mantine/core";
 import { readCustom } from "@/utils/xlsx-utils";
 import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
@@ -56,23 +56,19 @@ export default function Home() {
   return (
     <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
       <Flex className={styles.ioContainer} gap={"xl"}>
-        <div>
-          <InputGroup
-            workbook={workbook!}
-            sheet={SHEET_NAME}
-            cellRange={inputRange}
-            onSubmit={onInputSubmit}
-            loading={loading}
-          />
-        </div>
-        <div>
-          <OutputTable
-            workbook={workbook!}
-            sheet={SHEET_NAME}
-            cellRange={outputRange}
-            loading={loading}
-          />
-        </div>
+        <InputGroup
+          workbook={workbook!}
+          sheet={SHEET_NAME}
+          cellRange={inputRange}
+          onSubmit={onInputSubmit}
+          loading={loading}
+        />
+        <OutputTable
+          workbook={workbook!}
+          sheet={SHEET_NAME}
+          cellRange={outputRange}
+          loading={loading}
+        />
       </Flex>
     </Box>
   );

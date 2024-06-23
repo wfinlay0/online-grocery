@@ -1,4 +1,5 @@
 import {
+  Box,
   LoadingOverlay,
   Paper,
   Text,
@@ -82,18 +83,24 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   }, [props.workbook, props.cellRange]);
 
   return (
-    <Paper pos="relative" withBorder p={"lg"}>
-      <Text tt="uppercase" c="gray">
-        Calculation
+    <Box pos={"relative"}>
+      <Paper pos="relative" withBorder p={"lg"}>
+        <Text tt="uppercase" c="gray">
+          Calculation
+        </Text>
+        <Title order={2}>Fulfillment Time & Revenue</Title>
+        <LoadingOverlay
+          visible={props.loading}
+          overlayProps={{ blur: 2 }}
+          loaderProps={{ color: "gray.4" }}
+        />
+        <OutputGroups data={groups} />
+      </Paper>
+      <Text pos={"absolute"} c={"gray"} size="sm" m={5}>
+        *Additional costs are associated with the Fulfillment Center approach,
+        including last mile delivery and setting up separate facilities
       </Text>
-      <Title order={2}>Fulfillment Time & Revenue</Title>
-      <LoadingOverlay
-        visible={props.loading}
-        overlayProps={{ blur: 2 }}
-        loaderProps={{ color: "gray.4" }}
-      />
-      <OutputGroups data={groups} />
-    </Paper>
+    </Box>
   );
 };
 
