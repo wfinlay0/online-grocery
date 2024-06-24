@@ -82,12 +82,12 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
   }, [props.workbook, props.cellRange]);
 
   return (
-    <Box pos={"relative"}>
+    <Box>
       <Paper pos="relative" withBorder p={"lg"}>
         <Text tt="uppercase" c="gray">
           Calculation
         </Text>
-        <Title order={2}>Fulfillment Time & Revenue</Title>
+        <Title order={2}>Fulfillment Time & Incremental Revenue</Title>
         <LoadingOverlay
           visible={props.loading}
           overlayProps={{ blur: 2 }}
@@ -95,10 +95,6 @@ const OutputTable: React.FunctionComponent<IOutputTableProps> = (props) => {
         />
         <OutputGroups data={groups} />
       </Paper>
-      <Text pos={"absolute"} c={"gray"} size="sm" m={5}>
-        *Additional costs are associated with the Fulfillment Center approach,
-        including last mile delivery and setting up separate facilities
-      </Text>
     </Box>
   );
 };

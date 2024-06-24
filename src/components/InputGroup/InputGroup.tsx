@@ -68,18 +68,20 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
 
   return (
     data && (
-      <Box className={styles.InputGroup}>
-        <Box maw={500}>
+      <Box className={styles.InputGroup} maw={550}>
+        <Box>
           <Flex wrap={"wrap"} gap={30} mb={"xl"}>
             <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} />
             <Image alt="West Monroe logo" src={WM_LOGO_URL} h={45} />
           </Flex>
           <Title order={4}>What is this?</Title>
           <Text mb={20}>
-            This is a grocery store picking simulation where you can create
-            scenarios to inform your decisions on whether or not to provide
-            full-service grocery store picking using a research model created by
-            Wharton University.
+            This simulator estimates the picking times for online grocery orders
+            under various fulfillment options. It also calculates the additional
+            revenue needed for online orders to break even with equivalent
+            in-store purchases. Professors Marshall Fisher and Santiago Gallino
+            from the Wharton School developed the simulation in collaboration
+            with West Monroe.
           </Text>
         </Box>
         <Title order={2}>Make Your Selections</Title>
@@ -115,6 +117,13 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
             Calculate
           </Button>
         </Flex>
+        <Text>
+          The different fulfillment options encompass various locations for
+          order picking: a dedicated fulfillment center, a small dark store, a
+          back room in an existing store, and directly from the store floor.
+          Additionally, the options include different delivery methods: in-store
+          pickup, curbside pickup, or home delivery.
+        </Text>
       </Box>
     )
   );

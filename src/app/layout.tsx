@@ -52,7 +52,7 @@ export default function RootLayout({
                 />
                 <div className={styles.inner}>
                   <Title className={styles.title} ta={"center"}>
-                    Grocery Store Picker Simulator
+                    Online Grocery Picker Simulator
                   </Title>
                 </div>
               </div>
