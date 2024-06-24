@@ -26,6 +26,7 @@ export const metadata = {
 
 const WM_LOGO_BLACK_URL =
   nextConfig.basePath + "/images/WestMonroe_Stroke_Black.png";
+const BANNER_URL = nextConfig.basePath + "/images/banner.jpg";
 
 export default function RootLayout({
   children,
@@ -39,7 +40,11 @@ export default function RootLayout({
         <MantineProvider>
           <AppShell footer={{ height: 60 }}>
             <AppShellMain>
-              <div className={styles.wrapper}>
+              <div
+                className={styles.wrapper}
+                // using inline css because URL needs to change if basePath gets reconfigured
+                style={{ backgroundImage: `url(${BANNER_URL})` }}
+              >
                 <Overlay
                   gradient="linear-gradient(180deg, #1e426a 9%, #244f84 18%, #2c4d9a 43%, #0a2136 150%)"
                   opacity={0.85}
