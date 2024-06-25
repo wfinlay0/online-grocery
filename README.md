@@ -13,7 +13,7 @@ The app is built using
 
 ### Base Path Configuration
 
-If you plan on deploying the app to a sub-path (anything but the root) of your domain, you must add the path to the `basePath` option of [`next.config.mjs`](next.config.mjs).
+Update the `basePath` option of [`next.config.mjs`](next.config.mjs) to match the pathname at which the app will be deployed.
 
 For example, if the app is being deployed to
 www.wharton.upenn.edu/foo/bar/online-grocery:
@@ -28,6 +28,8 @@ const nextConfig = {
 
 export default nextConfig;
 ```
+
+Make sure to include the leading slash, or set it to an empty string if deploying at the root.
 
 ### Build
 
