@@ -27,6 +27,8 @@ const Leaf = ({ node, elementProps, level }: RenderTreeNodePayload) => {
       {...elementProps}
       justify={"space-between"}
       direction={level === 1 ? "column" : "row"}
+      onClick={undefined}
+      style={{ cursor: "default" }}
     >
       <Title order={(level + 3) as TitleOrder} my={"md"} mr={"5px"}>
         {node.label}

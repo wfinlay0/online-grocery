@@ -67,8 +67,9 @@ export default function RootLayout({
                     maw={143}
                   />
                 </Link>
-                <Text size="xs">
-                  &copy; 2024 West Monroe. All Rights Reserved
+                <Text size="xs" ta={"center"}>
+                  &copy; 2024 West Monroe and The Wharton School. All Rights
+                  Reserved
                 </Text>
               </div>
             </AppShellFooter>
