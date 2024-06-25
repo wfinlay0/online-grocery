@@ -7,10 +7,6 @@ import styles from "./InputGroup.module.css";
 import CellInput from "./CellInput";
 import nextConfig from "../../../next.config.mjs";
 
-/* potential refactor: generalize InputGroup further by adding a `readonly` boolean that would render it as such, would
- * be able to get rid of the OutputTable component completely, there is enough shared functionality. could also find
- * some other clever way to do the code splitting similar to extending a parent class. tbd
- */
 interface IInputGroupProps {
   workbook: WorkBook;
   sheet: string;
@@ -18,7 +14,7 @@ interface IInputGroupProps {
    * a string representing a cell range e.g. `"B9:C14"`
    * - two columns will be interpreted as a column of labels and a column of numbers
    * - one column will be interpreted simply as a column of numbers
-   * - if more than 2 colums, won't throw an error, but only first 2 will be considered
+   * - third and fourth columns are min and max, respectively
    */
   cellRange: string;
   /**

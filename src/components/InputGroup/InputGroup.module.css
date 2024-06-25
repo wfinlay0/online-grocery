@@ -1,6 +1,7 @@
 .InputGroup {
   .wmButton {
     border-radius: 0;
+    min-width: 250px;
 
     background: var(
       --WM-Gradient,
@@ -12,9 +13,13 @@
         #020000 100%
       )
     );
+
+    @media (max-width: 480px) {
+      width: 100%;
+    }
   }
 
-  .wmButton:hover {
+  .wmButton:hover:not(:disabled) {
     background: linear-gradient(90deg, #ffd303 -21.26%, #ff9914 100.59%);
     color: black;
   }

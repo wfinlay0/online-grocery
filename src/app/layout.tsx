@@ -8,7 +8,6 @@ import {
   AppShell,
   AppShellFooter,
   AppShellMain,
-  Flex,
   Image,
   Text,
   Title,
@@ -18,6 +17,7 @@ import {
 import Link from "next/link";
 import nextConfig from "../../next.config.mjs";
 import styles from "./layout.module.css";
+import * as React from "react";
 
 export const metadata = {
   title: "online-grocery",

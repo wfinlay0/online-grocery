@@ -6,7 +6,7 @@ import { CellObject, WorkBook, utils } from "xlsx";
 import OutputTable from "@/components/OutputTable/OutputTable";
 import nextConfig from "../../next.config.mjs";
 import styles from "./page.module.css";
-import { Text, Flex, Box } from "@mantine/core";
+import { Flex, Box } from "@mantine/core";
 import { readCustom } from "@/utils/xlsx-utils";
 import { SHEET_NAME, inputRange, outputRange } from "@/constants";
 
@@ -16,7 +16,7 @@ const MODEL_LINK = nextConfig.basePath + "/modelv7.xlsx";
 export default function Home() {
   const [workbook, setWorkbook] = React.useState<WorkBook>();
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>("");
+  const [error, setError] = React.useState<string>();
 
   React.useEffect(() => {
     fetch(MODEL_LINK)
@@ -55,21 +55,23 @@ export default function Home() {
 
   return (
     <Box maw={1200} mx={"auto"} mt={"md"} p={"md"}>
-      <Flex className={styles.ioContainer} gap={"xl"}>
-        <InputGroup
-          workbook={workbook!}
-          sheet={SHEET_NAME}
-          cellRange={inputRange}
-          onSubmit={onInputSubmit}
-          loading={loading}
-        />
-        <OutputTable
-          workbook={workbook!}
-          sheet={SHEET_NAME}
-          cellRange={outputRange}
-          loading={loading}
-        />
-      </Flex>
+      {error || (
+        <Flex className={styles.ioContainer} gap={"xl"}>
+          <InputGroup
+            workbook={workbook!}
+            sheet={SHEET_NAME}
+            cellRange={inputRange}
+            onSubmit={onInputSubmit}
+            loading={loading}
+          />
+          <OutputTable
+            workbook={workbook!}
+            sheet={SHEET_NAME}
+            cellRange={outputRange}
+            loading={loading}
+          />
+        </Flex>
+      )}
     </Box>
   );
 }
