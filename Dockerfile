@@ -21,3 +21,5 @@ ENV VERSION ${VERSION}
 
 COPY --from=builder /code/out/ /usr/share/nginx/html
 WORKDIR /usr/share/nginx/html
+
+# 1
