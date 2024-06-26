@@ -1,0 +1,80 @@
+# 3
+image: registry.gitlab.com/revsys/docker-builds/ci-runner:1.1.1
+
+variables:
+    DOCKER_HOST:  tcp://docker-ci:49152
+    IMAGE_ROOT: registry.gitlab.com/lldev-team/grocery-simulation
+
+stages:
+  - build
+  - image
+  - deploy
+
+
+.deploy: &deploy
+  - install    -m 0600 -o ${UID} -g ${UID} <( echo $deployKey | base64 -d  ) ~/.ssh/id_ed25519
+  - ssh-keyscan gitlab.com > ~/.ssh/known_hosts
+  - git clone git@gitlab.com:lldev-team/flux-system /tmp/f
+  - cd /tmp/f
+  - git checkout apps/${CI_ENVIRONMENT_NAME}
+  - |
+    set -eo pipefail && \
+    FLUX_APP_VERSION=/tmp/f/apps/pvt && \
+    cd ${CI_PROJECT_DIR} && \
+    export current_version=$( just _current ) && \
+    export potential=$( just _this ) && \
+    current_deployed=$( grep -A1 $IMAGE_ROOT ${FLUX_APP_VERSION} | tail -n 1 | sed -e 's/^.*: //' ) && \
+    cd /tmp/f/apps/grocery-simulation
+  - echo $PWD
+  - echo $IMAGE_ROOT
+  - echo $potential
+  - cd /tmp/f/apps/pvt; kustomize edit set image ${IMAGE_ROOT}:${potential}
+  - |
+    [[ "${current_version}" != "${current_deployed}" ]] && \
+    ( echo "${CI_PROJECT_NAME}: ${current_deployed} will be updated to ${current_version}" | \
+      tee /tmp/mr.show && \
+      cd /tmp/f; git commit -a -F /tmp/mr.show; git push \
+    ) || echo "${CI_ENVIRONMENT} deployment already at ${current_version}"
+
+image:build:
+  stage: build
+  tags: &Tags
+    - cluster-runner
+    - dev
+  needs: []
+  script: |
+    #docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin <<<$CI_JOB_TOKEN
+    just buildkit-up
+    just build release  --load
+    docker push ${IMAGE_ROOT}:$( just _this )
+    just buildkit-down
+  only:
+    - main
+
+image:repo-tag:
+  tags: *Tags
+  stage: image
+  needs: ["image:build"]
+  script:
+    - git config --global user.email "${GITLAB_USER_NAME}" && \
+    - git config --global user.name "${GITLAB_USER_EMAIL}" && \
+    - git config --global push.default simple && \
+    - git remote add upstream https://${GITLAB_TOKEN_OWNER}:${GITLAB_TOKEN}@gitlab.com/lldev-team/pvt && \
+    - IMAGE_VERSION=$( just _this ) && \
+    - git describe --tags --exact-match ${IMAGE_VERSION} >& /dev/null || ( git tag ${IMAGE_VERSION} && git push upstream --tags )
+  only:
+    - main
+
+
+deploy:prod:
+  tags: *Tags
+  stage: deploy
+  #when: manual
+  environment:
+    name: prod
+    url: https://pvt.prod.wharton.revsys.com
+  script: *deploy
+  needs: ["image:repo-tag"]
+  only:
+    - main

@@ -1,0 +1,11 @@
+.next/
+.git/
+node_modules/
+.vscode/
+Dockerfile
+.dockerignore
+out/
+.github/
+next-env.d.ts
+
+
