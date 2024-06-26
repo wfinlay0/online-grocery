@@ -19,7 +19,7 @@ stages:
   - git checkout apps/${CI_ENVIRONMENT_NAME}
   - |
     set -eo pipefail && \
-    FLUX_APP_VERSION=/tmp/f/apps/pvt && \
+    FLUX_APP_VERSION=/tmp/f/apps/grocery-simulation && \
     cd ${CI_PROJECT_DIR} && \
     export current_version=$( just _current ) && \
     export potential=$( just _this ) && \
