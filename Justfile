@@ -1,8 +1,8 @@
 #vim: ft=make ts=4 sw=4 et
 set dotenv-load := false
 
-IMAGE_REGISTRY := 'registry.gitlab.com/lldev-team/pvt'
-CACHEPATH := 'registry.gitlab.com/lldev-team/pvt/cache'
+IMAGE_REGISTRY := 'registry.gitlab.com/lldev-team/grocery-simulation'
+CACHEPATH := 'registry.gitlab.com/lldev-team/grocery-simulation/cache'
 
 set shell := ["/bin/bash", "-c"]
 
@@ -13,20 +13,20 @@ list:
 @_offset:
     git describe --tags --long --match "v*" | cut -d"-" -f2
 
-@_current:
+@current:
     git describe --tags --long --match "v*" | cut -d"-" -f1
 
-@_this:
+@next:
     [[ $( just _offset ) -gt 0 ]] && \
-        bumpversion --dry-run --list --current-version $( just _current ) --allow-dirty patch | sed -nre '/^new/s/^.*=(.*)$/v\1/p' || \
-        just _current
+        bumpversion --dry-run --list --current-version $( just current ) --allow-dirty patch | sed -nre '/^new/s/^.*=(.*)$/v\1/p' || \
+        just current
 
 # step=image layer, action=(--push|--load)
 build step action='':
     #!/usr/bin/env bash
     set -xo pipefail
     echo "step={{ step }}"
-    IMAGE_VERSION=$( just _this )
+    IMAGE_VERSION=$( just next )
     [[ "{{ step }}" == "release" ]] && cachebits="--cache-to=type=registry,ref={{CACHEPATH}},mode=max --cache-from=type=registry,ref={{CACHEPATH}}" && endbits=${IMAGE_VERSION} || endbits=${IMAGE_VERSION}-{{ step }}
     [[ "{{ step }}" != "release" ]] && cachebits="--cache-to=type=registry,ref={{CACHEPATH}}-{{ step }},mode=max --cache-from=type=registry,ref={{CACHEPATH}}-{{ step }}"
     GIT_BRANCH=$( git branch --show-current )
@@ -41,7 +41,7 @@ build step action='':
 
 tag:
     #!/usr/bin/env bash
-    echo {{IMAGE_REGISTRY}}:$( just _current )
+    echo {{IMAGE_REGISTRY}}:$( just current )
 
 @buildkit-up:
     #!/bin/bash
