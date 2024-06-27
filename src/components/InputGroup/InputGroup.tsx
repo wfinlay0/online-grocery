@@ -1,5 +1,14 @@
 import { getCellRangeValues } from "@/utils/xlsx-utils";
-import { Box, Button, Flex, Image, Table, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Table,
+  Text,
+  Title,
+  Tooltip,
+} from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
 import { IconHelp } from "@tabler/icons-react";
@@ -12,9 +21,10 @@ interface IInputGroupProps {
   sheet: string;
   /**
    * a string representing a cell range e.g. `"B9:C14"`
-   * - two columns will be interpreted as a column of labels and a column of numbers
    * - one column will be interpreted simply as a column of numbers
+   * - two columns will be interpreted as a column of labels and a column of numbers
    * - third and fourth columns are min and max, respectively
+   * - fifth column is tooltips/comments
    */
   cellRange: string;
   /**
@@ -90,7 +100,12 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                     <Flex align={"center"} miw={300} py={"xs"}>
                       {utils.format_cell(row[0])}&nbsp;
                       <Flex align={"center"}>
-                        <IconHelp size={17} color="lightgray" />
+                        <Tooltip
+                          label={row[4]?.v?.toString()}
+                          events={{ hover: true, focus: true, touch: true }}
+                        >
+                          <IconHelp size={17} color="lightgray" />
+                        </Tooltip>
                       </Flex>
                     </Flex>
                     <CellInput
