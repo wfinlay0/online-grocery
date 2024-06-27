@@ -21,8 +21,8 @@ stages:
     set -eo pipefail && \
     FLUX_APP_VERSION=/tmp/f/apps/grocery-simulation && \
     cd ${CI_PROJECT_DIR} && \
-    export current_version=$( just _current ) && \
-    export potential=$( just _this ) && \
+    export current_version=$( just current ) && \
+    export potential=$( just next ) && \
     current_deployed=$( grep -A1 $IMAGE_ROOT ${FLUX_APP_VERSION}/kustomization.yaml | tail -n 1 | sed -e 's/^.*: //' ) && \
     cd /tmp/f/apps/grocery-simulation
   - echo $PWD
@@ -47,7 +47,7 @@ image:build:
     docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin <<<$CI_JOB_TOKEN
     just buildkit-up
     just build release  --load
-    docker push ${IMAGE_ROOT}:$( just _this )
+    docker push ${IMAGE_ROOT}:$( just next )
     just buildkit-down
   only:
     - main
@@ -61,7 +61,7 @@ image:repo-tag:
     - git config --global user.name "${GITLAB_USER_EMAIL}" && \
     - git config --global push.default simple && \
     - git remote add upstream https://${GITLAB_TOKEN_OWNER}:${GITLAB_TOKEN}@gitlab.com/lldev-team/pvt && \
-    - IMAGE_VERSION=$( just _this ) && \
+    - IMAGE_VERSION=$( just next ) && \
     - git describe --tags --exact-match ${IMAGE_VERSION} >& /dev/null || ( git tag ${IMAGE_VERSION} && git push upstream --tags )
   only:
     - main
