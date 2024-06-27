@@ -22,6 +22,7 @@ const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
         radius={"xl"}
         onClick={() => handlersRef.current?.decrement()}
         color={theme.colors.gray[2]}
+        disabled={props.disabled}
       >
         <IconMinus color={theme.colors.blue[5]} size={16} />
       </ActionIcon>
@@ -43,6 +44,7 @@ const BeasonInput: React.FunctionComponent<IBeasonInputProps> = (props) => {
         radius={"xl"}
         onClick={() => handlersRef.current?.increment()}
         color={theme.colors.gray[2]}
+        disabled={props.disabled}
       >
         <IconPlus color={theme.colors.blue[5]} size={16} />
       </ActionIcon>

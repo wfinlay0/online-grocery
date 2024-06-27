@@ -37,11 +37,6 @@ interface IInputGroupProps {
   loading: boolean;
 }
 
-export type InputRow = {
-  label: string;
-  value: number;
-};
-
 const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
 const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
 
@@ -53,6 +48,7 @@ const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
  */
 const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
   const [data, setData] = React.useState<CellObject[][]>();
+  const [skuCount, setSkuCount] = React.useState<number>();
   // [ ] mantine use form
 
   React.useEffect(() => {
@@ -64,12 +60,28 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     setData(inputRows);
   }, [props.cellRange, props.sheet, props.workbook]);
 
+  React.useEffect(() => {
+    const _skuCount =
+      (data?.[2]?.[1]?.v as number) + (data?.[3]?.[1]?.v as number);
+    setSkuCount(_skuCount);
+  }, [data]);
+
   const onInputChange = (newValue: string | number, rowIndex: number) => {
     setData((old) => {
       const tmp = old!.slice();
       tmp[rowIndex][1].v = Number(newValue);
       return tmp;
     });
+  };
+
+  const determineMax = (row: CellObject[], idx: number): number | undefined => {
+    if (idx === 2) {
+      return (data?.[0]?.[1].v as number) - (data?.[3]?.[1].v as number);
+    }
+    if (idx === 3) {
+      return (data?.[0]?.[1].v as number) - (data?.[2]?.[1].v as number);
+    }
+    return undefined;
   };
 
   return (
@@ -112,6 +124,9 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                 <CellInput
                   row={row}
                   onChange={(value) => onInputChange(value, idx)}
+                  disabled={idx === 1}
+                  value={(idx === 1 && skuCount) || undefined}
+                  max={determineMax(row, idx)}
                 />
               </Flex>
               <Accordion.Panel>
