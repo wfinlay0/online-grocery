@@ -99,7 +99,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
           {data.map((row, idx) => (
             <Accordion.Item key={idx} value={idx.toString()}>
               <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
-                <Flex align={"center"} py={"xs"}>
+                <Flex align={"center"} py={"xs"} miw={370}>
                   {utils.format_cell(row[0])}&nbsp;
                   <Flex align={"center"}>
                     <Accordion.Control
