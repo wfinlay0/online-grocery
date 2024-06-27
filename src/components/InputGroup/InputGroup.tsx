@@ -74,7 +74,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
 
   return (
     data && (
-      <Box className={styles.InputGroup} maw={550}>
+      <Box className={styles.InputGroup} pos={"relative"}>
         <Box>
           <Flex wrap={"wrap"} gap={30} mb={"xl"}>
             <Image alt="Wharton Logo" src={WHARTON_LOGO_URL} h={50} />
@@ -115,7 +115,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                 />
               </Flex>
               <Accordion.Panel>
-                <Paper bg={"#F6F5F5"} p={"1rem"}>
+                <Paper bg={"#F6F5F5"} p={"1rem"} fz={"sm"}>
                   {row[4]?.v?.toString()}
                 </Paper>
               </Accordion.Panel>
