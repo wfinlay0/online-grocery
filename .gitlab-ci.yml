@@ -23,12 +23,12 @@ stages:
     cd ${CI_PROJECT_DIR} && \
     export current_version=$( just _current ) && \
     export potential=$( just _this ) && \
-    current_deployed=$( grep -A1 $IMAGE_ROOT ${FLUX_APP_VERSION} | tail -n 1 | sed -e 's/^.*: //' ) && \
+    current_deployed=$( grep -A1 $IMAGE_ROOT ${FLUX_APP_VERSION}/kustomization.yaml | tail -n 1 | sed -e 's/^.*: //' ) && \
     cd /tmp/f/apps/grocery-simulation
   - echo $PWD
   - echo $IMAGE_ROOT
   - echo $potential
-  - cd /tmp/f/apps/pvt; kustomize edit set image ${IMAGE_ROOT}:${potential}
+  - cd /tmp/f/apps/grocery-simulation; kustomize edit set image ${IMAGE_ROOT}:${potential}
   - |
     [[ "${current_version}" != "${current_deployed}" ]] && \
     ( echo "${CI_PROJECT_NAME}: ${current_deployed} will be updated to ${current_version}" | \
