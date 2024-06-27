@@ -1,13 +1,13 @@
 import { getCellRangeValues } from "@/utils/xlsx-utils";
 import {
+  Accordion,
   Box,
   Button,
   Flex,
   Image,
-  Table,
+  Paper,
   Text,
   Title,
-  Tooltip,
 } from "@mantine/core";
 import * as React from "react";
 import { CellObject, WorkBook, utils } from "xlsx";
@@ -91,33 +91,37 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
           </Text>
         </Box>
         <Title order={2}>Make Your Selections</Title>
-        <Table>
-          <Table.Tbody>
-            {data.map((row, idx) => (
-              <Table.Tr key={idx}>
-                <Table.Td>
-                  <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
-                    <Flex align={"center"} miw={300} py={"xs"}>
-                      {utils.format_cell(row[0])}&nbsp;
-                      <Flex align={"center"}>
-                        <Tooltip
-                          label={row[4]?.v?.toString()}
-                          events={{ hover: true, focus: true, touch: true }}
-                        >
-                          <IconHelp size={17} color="lightgray" />
-                        </Tooltip>
-                      </Flex>
-                    </Flex>
-                    <CellInput
-                      row={row}
-                      onChange={(value) => onInputChange(value, idx)}
+        <Accordion
+          chevron={false}
+          multiple
+          styles={{ content: { padding: "0 0 15px" } }}
+        >
+          {data.map((row, idx) => (
+            <Accordion.Item key={idx} value={idx.toString()}>
+              <Flex justify={"space-between"} py={"xs"} wrap={"wrap"}>
+                <Flex align={"center"} py={"xs"}>
+                  {utils.format_cell(row[0])}&nbsp;
+                  <Flex align={"center"}>
+                    <Accordion.Control
+                      className={styles.infoIcon}
+                      icon={<IconHelp size={17} color="lightgray" />}
+                      p={0}
                     />
                   </Flex>
-                </Table.Td>
-              </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
+                </Flex>
+                <CellInput
+                  row={row}
+                  onChange={(value) => onInputChange(value, idx)}
+                />
+              </Flex>
+              <Accordion.Panel>
+                <Paper bg={"#F6F5F5"} p={"1rem"}>
+                  {row[4]?.v?.toString()}
+                </Paper>
+              </Accordion.Panel>
+            </Accordion.Item>
+          ))}
+        </Accordion>
         <Flex justify={"flex-end"}>
           <Button
             className={styles.wmButton}

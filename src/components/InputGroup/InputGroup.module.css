@@ -1,4 +1,8 @@
 .InputGroup {
+  .infoIcon:hover {
+    background-color: transparent;
+  }
+
   .wmButton {
     border-radius: 0;
     min-width: 250px;
