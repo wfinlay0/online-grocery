@@ -60,7 +60,7 @@ image:repo-tag:
     - git config --global user.email "${GITLAB_USER_NAME}" && \
     - git config --global user.name "${GITLAB_USER_EMAIL}" && \
     - git config --global push.default simple && \
-    - git remote add upstream https://${GITLAB_TOKEN_OWNER}:${GITLAB_TOKEN}@gitlab.com/lldev-team/pvt && \
+    - git remote add upstream https://${GITLAB_TOKEN_OWNER}:${GITLAB_TOKEN}@gitlab.com/lldev-team/${CI_PROJECT_NAME} && \
     - IMAGE_VERSION=$( just next ) && \
     - git describe --tags --exact-match ${IMAGE_VERSION} >& /dev/null || ( git tag ${IMAGE_VERSION} && git push upstream --tags )
   only:
@@ -73,7 +73,7 @@ deploy:prod:
   #when: manual
   environment:
     name: prod
-    url: https://pvt.prod.wharton.revsys.com
+    url: https://grocery-simulation.prod.wharton.revsys.com
   script: *deploy
   needs: ["image:repo-tag"]
   only:
