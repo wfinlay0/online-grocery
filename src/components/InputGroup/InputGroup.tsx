@@ -39,6 +39,7 @@ interface IInputGroupProps {
 
 const WHARTON_LOGO_URL = nextConfig.basePath + "/images/Wharton-Logo.png";
 const WM_LOGO_URL = nextConfig.basePath + "/images/WestMonroe_Logo.png";
+const SKU_TOOLTIP = "SKU Count is a calculated value equal to the sum of the Fast Moving and Slow Moving SKUs";
 
 /**
  * renders number inputs with labels specified by a two column cell range in a sheet, also responsible for updating the
@@ -129,6 +130,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                   value={(idx === 1 && skuCount) || undefined}
                   max={determineMax(idx)}
                   min={(idx === 0 && skuCount) || undefined}
+                  label={(idx === 1 && SKU_TOOLTIP) || undefined}
                 />
               </Flex>
               <Accordion.Panel>

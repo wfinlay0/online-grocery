@@ -1,23 +1,16 @@
 import * as React from "react";
-import BeasonInput from "./BeasonInput";
+import BeasonInput, { IBeasonInputProps } from "./BeasonInput";
 import { CellObject } from "xlsx";
-import { NumberInputProps } from "@mantine/core";
 
-interface ICellInputProps {
+interface ICellInputProps extends IBeasonInputProps {
   row: CellObject[];
   onChange: (value: string | number) => void;
-  disabled?: boolean;
-  /**
-   * overrides the value in row[1]
-   */
-  value?: number | string | undefined;
-  /**
-   * overrides the value in row[3]
-   */
-  max?: number;
-  min?: number;
+  label?: string;
 }
 
+/**
+ * Like a Beason input but can take a row of cells with a value, min, and max
+ */
 const CellInput: React.FunctionComponent<ICellInputProps> = (props) => {
   const valueCell = props.row?.[1];
   const isDecimal =
@@ -36,6 +29,7 @@ const CellInput: React.FunctionComponent<ICellInputProps> = (props) => {
       min={props.min ?? (props.row[2]?.v as number)}
       max={props.max ?? (props.row[3]?.v as number)}
       disabled={props.disabled}
+      toolTip={props.label}
     />
   );
 };
