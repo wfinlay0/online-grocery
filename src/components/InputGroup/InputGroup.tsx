@@ -74,7 +74,8 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
     });
   };
 
-  const determineMax = (row: CellObject[], idx: number): number | undefined => {
+  // Hard coding the validation for the sake of time
+  const determineMax = (idx: number): number | undefined => {
     if (idx === 2) {
       return (data?.[0]?.[1].v as number) - (data?.[3]?.[1].v as number);
     }
@@ -126,7 +127,8 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                   onChange={(value) => onInputChange(value, idx)}
                   disabled={idx === 1}
                   value={(idx === 1 && skuCount) || undefined}
-                  max={determineMax(row, idx)}
+                  max={determineMax(idx)}
+                  min={(idx === 0 && skuCount) || undefined}
                 />
               </Flex>
               <Accordion.Panel>

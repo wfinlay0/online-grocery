@@ -15,6 +15,7 @@ interface ICellInputProps {
    * overrides the value in row[3]
    */
   max?: number;
+  min?: number;
 }
 
 const CellInput: React.FunctionComponent<ICellInputProps> = (props) => {
@@ -32,7 +33,7 @@ const CellInput: React.FunctionComponent<ICellInputProps> = (props) => {
       allowNegative={false}
       onChange={onCellInputChange}
       suffix={isDecimal ? "%" : undefined}
-      min={props.row[2]?.v as number}
+      min={props.min ?? (props.row[2]?.v as number)}
       max={props.max ?? (props.row[3]?.v as number)}
       disabled={props.disabled}
     />
