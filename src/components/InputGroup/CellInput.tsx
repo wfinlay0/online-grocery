@@ -5,7 +5,7 @@ import { CellObject } from "xlsx";
 interface ICellInputProps extends IBeasonInputProps {
   row: CellObject[];
   onChange: (value: string | number) => void;
-  label?: string;
+  toolTip?: string;
 }
 
 /**
@@ -29,7 +29,7 @@ const CellInput: React.FunctionComponent<ICellInputProps> = (props) => {
       min={props.min ?? (props.row[2]?.v as number)}
       max={props.max ?? (props.row[3]?.v as number)}
       disabled={props.disabled}
-      toolTip={props.label}
+      toolTip={props.toolTip}
     />
   );
 };

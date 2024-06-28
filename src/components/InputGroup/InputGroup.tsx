@@ -130,7 +130,7 @@ const InputGroup: React.FunctionComponent<IInputGroupProps> = (props) => {
                   value={(idx === 1 && skuCount) || undefined}
                   max={determineMax(idx)}
                   min={(idx === 0 && skuCount) || undefined}
-                  label={(idx === 1 && SKU_TOOLTIP) || undefined}
+                  toolTip={(idx === 1 && SKU_TOOLTIP) || undefined}
                 />
               </Flex>
               <Accordion.Panel>
